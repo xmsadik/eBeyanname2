@@ -164,7 +164,7 @@
 
 
       SELECT
-      j~taxcode, r~ConditionRateRatio,r~vatconditiontype,
+      j~taxcode as mwskz , r~ConditionRateRatio as kbetr ,r~vatconditiontype as kschl,
       SUM( CASE WHEN j~transactiontypedetermination <> ' ' THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwste,
       SUM( CASE WHEN j~transactiontypedetermination = ' ' THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwbas
       FROM i_journalentryitem AS j
