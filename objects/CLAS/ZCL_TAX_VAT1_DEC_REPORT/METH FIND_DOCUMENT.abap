@@ -170,8 +170,6 @@
 *            bset~LedgerGLLineItem             AS buzei,
             bset~taxcode             AS mwskz,
             bset~debitcreditcode     AS shkzg,
-            bset~amountincompanycodecurrency AS hwbas,
-            bset~amountincompanycodecurrency     AS hwste,
             bset~TransactionTypeDetermination AS ktosl,
             taxratio~conditionrateratio AS kbetr ,
             taxratio~vatconditiontype AS kschl,
