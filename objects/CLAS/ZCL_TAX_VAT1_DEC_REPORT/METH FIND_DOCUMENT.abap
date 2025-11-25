@@ -31,8 +31,8 @@
            WHERE i_journalentry~CompanyCode EQ @p_bukrs
              AND i_journalentry~FiscalYear EQ @p_gjahr
              AND i_journalentry~FiscalPeriod IN @mr_monat
-             and i_journalentry~IsReversed = @space
-             and i_journalentry~IsReversal = @space
+             AND i_journalentry~IsReversed = @space
+             AND i_journalentry~IsReversal = @space
             INTO TABLE @et_bkpf.
     IF sy-subrc IS NOT INITIAL.
       RETURN.
@@ -176,7 +176,7 @@
             taxratio~conditionrateratio AS kbetr ,
             taxratio~vatconditiontype AS kschl,
             bset~GLAccount AS hkont
-          FROM I_JOURNALENTRYITEM AS bset
+          FROM i_journalentryitem AS bset
 
           INNER JOIN i_companycode AS t001
           ON t001~companycode = bset~companycode
@@ -194,11 +194,11 @@
 *           docitem~fiscalyear         = bset~fiscalyear AND
 *           docitem~AccountingDocumentItem = bset~LedgerGLLineItem
 
-          FOR ALL ENTRIES IN @et_bkpf
-          WHERE bset~companycode        = @et_bkpf-bukrs
-            AND bset~Accountingdocument = @et_bkpf-belnr
-            AND bset~fiscalyear         = @et_bkpf-gjahr
-            AND bset~taxcode           IN @ir_mwskz
+          INNER JOIN @et_bkpf AS bkpf
+             ON bset~companycode        = bkpf~bukrs
+            AND bset~Accountingdocument = bkpf~belnr
+            AND bset~fiscalyear         = bkpf~gjahr
+*            AND bset~taxcode           IN @ir_mwskz
             AND bset~ledger             = '0L'
             AND bset~financialaccounttype = 's'
         INTO CORRESPONDING FIELDS OF TABLE @et_bset.
