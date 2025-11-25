@@ -164,57 +164,27 @@
 
 
       SELECT
-          bset~companycode         AS bukrs,
-*            bset~Accountingdocument  AS belnr,
-*            bset~fiscalyear          AS gjahr,
-*            bset~LedgerGLLineItem             AS buzei,
-          bset~taxcode             AS mwskz,
-SUM( CASE WHEN left( glaccount, 3 ) <> ' ' THEN amountincompanycodecurrency ELSE 0 END ) AS hwste,
-SUM( CASE WHEN left( glaccount, 3 ) = ' ' THEN amountincompanycodecurrency ELSE 0 END ) AS hwbas,
-*          bset~debitcreditcode     AS shkzg,
-*            bset~TransactionTypeDetermination AS ktosl,
-          taxratio~conditionrateratio AS kbetr ,
-          taxratio~vatconditiontype AS kschl
-*            bset~GLAccount AS hkont
-        FROM i_journalentryitem AS bset
+      j~taxcode, r~ConditionRateRatio,r~vatconditiontype,
+      SUM( CASE WHEN j~transactiontypedetermination <> ' ' THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwste,
+      SUM( CASE WHEN j~transactiontypedetermination = ' ' THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwbas
+      FROM i_journalentryitem AS j
+      LEFT OUTER JOIN i_taxcoderate AS r
+*on r~country = j~CountryChartOfAccounts
+      ON r~CndnRecordValidityStartDate <= j~DocumentDate
+      AND r~CndnRecordValidityEndDate >= j~DocumentDate
+      AND r~taxcode = j~taxcode
+      WHERE j~ledger = '0L'
+         AND j~companycode = @p_bukrs
+         AND j~fiscalyear = @p_gjahr
+         AND j~FiscalPeriod = @p_monat
+         AND j~isreversal = ''
+         AND j~isreversed = ''
+         AND j~financialaccounttype = 'S'
+         AND j~taxcode <> ''
+         GROUP BY j~taxcode, r~ConditionRateRatio,r~vatconditiontype
+      ORDER BY j~taxcode
+      into CORRESPONDING FIELDS OF table @et_bset   .
 
-        INNER JOIN i_companycode AS t001
-        ON t001~companycode = bset~companycode
-
-        LEFT JOIN i_taxcoderate AS taxratio
-        ON  taxratio~taxcode = bset~taxcode
-        AND  taxratio~AccountKeyForGLAccount = bset~TransactionTypeDetermination
-        AND taxratio~Country = t001~Country
-        AND taxratio~cndnrecordvalidityenddate = '99991231'
-
-*
-*          LEFT JOIN i_operationalacctgdocitem AS docitem ON
-*           docitem~CompanyCode        = bset~companycode AND
-*           docitem~AccountingDocument = bset~Accountingdocument AND
-*           docitem~fiscalyear         = bset~fiscalyear AND
-*           docitem~AccountingDocumentItem = bset~LedgerGLLineItem
-
-*          INNER JOIN @et_bkpf AS bkpf
-*             ON bset~companycode        = bkpf~bukrs
-*            AND bset~Accountingdocument = bkpf~belnr
-*            AND bset~fiscalyear         = bkpf~gjahr
-**            AND bset~taxcode           IN @ir_mwskz
-*            AND bset~ledger             = '0L'
-*            AND bset~financialaccounttype = 'S'
-WHERE bset~ledger = '0L'
- AND bset~companycode = @p_bukrs
- AND bset~fiscalyear = @p_gjahr
- AND bset~FiscalPeriod = '10'
- AND bset~isreversal = ''
- AND bset~isreversed = ''
- AND bset~financialaccounttype = 'S'
- GROUP BY bset~taxcode,
-          bset~companycode,
-*          bset~debitcreditcode,
-*            bset~TransactionTypeDetermination,
-          taxratio~conditionrateratio,
-          taxratio~vatconditiontype
-      INTO CORRESPONDING FIELDS OF TABLE @et_bset.
 
 
 *      ENDIF.
@@ -223,11 +193,11 @@ WHERE bset~ledger = '0L'
 
 
 
-    ENDIF.
+      ENDIF.
 
-    IF is_read_tab-bseg EQ abap_true.
+      IF is_read_tab-bseg EQ abap_true.
 
-      IF lines( et_bset ) GT 0.
+        IF lines( et_bset ) GT 0.
 *        SELECT *
 *               INTO TABLE et_bseg
 *               FROM bseg
@@ -252,7 +222,7 @@ WHERE bset~ledger = '0L'
 *                 AND bseg~fiscalyear EQ @et_bset-gjahr
 *                  INTO TABLE @et_bseg.
 
-      ELSEIF lines( et_bkpf ) GT 0.
+        ELSEIF lines( et_bkpf ) GT 0.
 *        SELECT *
 *               INTO TABLE et_bseg
 *               FROM bseg
@@ -277,8 +247,8 @@ WHERE bset~ledger = '0L'
 *                 AND bseg~fiscalyear EQ @et_bkpf-gjahr
 *                  INTO TABLE @et_bseg.
 
+        ENDIF.
+
       ENDIF.
 
-    ENDIF.
-
-  ENDMETHOD.
+    ENDMETHOD.
