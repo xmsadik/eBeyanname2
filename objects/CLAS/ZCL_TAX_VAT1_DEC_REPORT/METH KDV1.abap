@@ -179,7 +179,7 @@
                                                        ( low =  'VST' ) ).
           IF ls_map-saknr IS NOT INITIAL.
             LOOP AT lt_bset INTO ls_bset WHERE mwskz EQ ls_map-mwskz
-                                           AND hkont EQ ls_map-saknr
+*                                           AND hkont EQ ls_map-saknr
                                            AND ktosl IN lr_ktosl.
 
 *              APPEND INITIAL LINE TO mt_detail ASSIGNING <fs_detail>.
@@ -221,21 +221,13 @@
               ls_collect-acklm1 = ls_map-acklm1.
               IF ls_bset-shkzg EQ 'H'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas * -1.
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste * -1.
-                ENDIF.
 
               ELSEIF ls_bset-shkzg EQ 'S'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas .
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste .
-                ENDIF.
 
               ENDIF.
 
@@ -249,21 +241,13 @@
               ls_collect-acklm2 = ls_map-acklm2.
               IF ls_bset-shkzg EQ 'H'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas * -1.
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste * -1.
-                ENDIF.
 
               ELSEIF ls_bset-shkzg EQ 'S'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas .
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste .
-                ENDIF.
 
               ENDIF.
               COLLECT ls_collect INTO mt_collect.
@@ -284,21 +268,13 @@
               SHIFT ls_collect-oran LEFT DELETING LEADING space.
               IF ls_bset-shkzg EQ 'H'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas * -1.
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste * -1.
-                ENDIF.
 
               ELSEIF ls_bset-shkzg EQ 'S'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas .
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste .
-                ENDIF.
 
               ENDIF.
               COLLECT ls_collect INTO mt_collect.
@@ -385,23 +361,15 @@
               ls_collect-acklm1 = ls_map-acklm1.
               ls_collect-kiril2 = ls_map-kiril2.
               ls_collect-acklm2 = ls_map-acklm2.
-              IF ls_bset-shkzg EQ 'H'.
+               IF ls_bset-shkzg EQ 'H'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas * -1.
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste * -1.
-                ENDIF.
 
               ELSEIF ls_bset-shkzg EQ 'S'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas .
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste .
-                ENDIF.
 
               ENDIF.
               "<<D_ANANTU Alper NANTU Comment
@@ -423,21 +391,13 @@
               SHIFT ls_collect-oran LEFT DELETING LEADING space.
               IF ls_bset-shkzg EQ 'H'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas * -1.
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste * -1.
-                ENDIF.
 
               ELSEIF ls_bset-shkzg EQ 'S'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas .
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste .
-                ENDIF.
 
               ENDIF.
               COLLECT ls_collect INTO mt_collect.
@@ -547,12 +507,8 @@
                           WHEN 'H'.
 
 
-                            IF ls_bset-hkont(3) NE '391'.
                               ls_collect-matrah = ls_bset-hwbas * -1.
-                            ENDIF.
-                            IF ls_bset-hkont(3) EQ '391'.
                               ls_collect-vergi  = ls_bset-hwste * -1.
-                            ENDIF.
 
 
 
