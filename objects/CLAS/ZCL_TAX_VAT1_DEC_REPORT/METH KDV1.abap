@@ -336,21 +336,13 @@
               ls_collect-acklm1 = ls_map-acklm1.
               IF ls_bset-shkzg EQ 'H'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas * -1.
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste * -1.
-                ENDIF.
 
               ELSEIF ls_bset-shkzg EQ 'S'.
 
-                IF ls_bset-hkont(3) NE '391'.
                   ls_collect-matrah = ls_bset-hwbas .
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
                   ls_collect-vergi  = ls_bset-hwste .
-                ENDIF.
 
               ENDIF.
               COLLECT ls_collect INTO mt_collect.

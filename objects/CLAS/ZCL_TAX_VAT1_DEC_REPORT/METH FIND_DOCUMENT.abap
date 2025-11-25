@@ -119,7 +119,7 @@
 *    ENDIF.
 
     IF is_read_tab-bset EQ abap_true.
-      IF lines( et_bkpf ) GT 0.
+*      IF lines( et_bkpf ) GT 0.
 
 
 
@@ -217,7 +217,7 @@ SUM( CASE WHEN left( glaccount, 3 ) <> '391' THEN amountincompanycodecurrency EL
         INTO CORRESPONDING FIELDS OF TABLE @et_bset.
 
 
-      ENDIF.
+*      ENDIF.
 
 
 
