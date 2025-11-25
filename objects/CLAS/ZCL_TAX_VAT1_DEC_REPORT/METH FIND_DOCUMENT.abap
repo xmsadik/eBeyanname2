@@ -223,21 +223,21 @@
 *                 AND bseg~belnr EQ et_bset-belnr
 *                 AND bseg~gjahr EQ et_bset-gjahr.
 
-        SELECT DISTINCT CompanyCode AS bukrs, "YiğitcanÖzdemir Distint ekledim
-               AccountingDocument AS belnr,
-               fiscalyear AS gjahr ,
-               FinancialAccountType AS koart ,
-               supplier AS lifnr ,
-               AccountingDocumentItemType AS buzid,
-               TaxCode AS mwskz,
-               GLAccount AS hkont,
-               Reference3IDByBusinessPartner AS xref3
-               FROM i_operationalacctgdocitem AS bseg
-               FOR ALL ENTRIES IN @et_bset
-               WHERE bseg~CompanyCode EQ @et_bset-bukrs
-                 AND bseg~AccountingDocument EQ @et_bset-belnr
-                 AND bseg~fiscalyear EQ @et_bset-gjahr
-                  INTO TABLE @et_bseg.
+*        SELECT DISTINCT CompanyCode AS bukrs, "YiğitcanÖzdemir Distint ekledim
+*               AccountingDocument AS belnr,
+*               fiscalyear AS gjahr ,
+*               FinancialAccountType AS koart ,
+*               supplier AS lifnr ,
+*               AccountingDocumentItemType AS buzid,
+*               TaxCode AS mwskz,
+*               GLAccount AS hkont,
+*               Reference3IDByBusinessPartner AS xref3
+*               FROM i_operationalacctgdocitem AS bseg
+*               FOR ALL ENTRIES IN @et_bset
+*               WHERE bseg~CompanyCode EQ @et_bset-bukrs
+*                 AND bseg~AccountingDocument EQ @et_bset-belnr
+*                 AND bseg~fiscalyear EQ @et_bset-gjahr
+*                  INTO TABLE @et_bseg.
 
       ELSEIF lines( et_bkpf ) GT 0.
 *        SELECT *
@@ -248,21 +248,21 @@
 *                 AND bseg~belnr EQ et_bkpf-belnr
 *                 AND bseg~gjahr EQ et_bkpf-gjahr.
 
-        SELECT DISTINCT CompanyCode AS bukrs, "YiğitcanÖzdemir Distint ekledim
-               AccountingDocument AS belnr,
-               fiscalyear AS gjahr ,
-               FinancialAccountType AS koart ,
-               supplier AS lifnr ,
-               AccountingDocumentItemType AS buzid,
-               TaxCode AS mwskz,
-               GLAccount AS hkont,
-               Reference3IDByBusinessPartner AS xref3
-               FROM i_operationalacctgdocitem AS bseg
-               FOR ALL ENTRIES IN @et_bkpf
-               WHERE bseg~CompanyCode EQ @et_bkpf-bukrs
-                 AND bseg~AccountingDocument EQ @et_bkpf-belnr
-                 AND bseg~fiscalyear EQ @et_bkpf-gjahr
-                  INTO TABLE @et_bseg.
+*        SELECT DISTINCT CompanyCode AS bukrs, "YiğitcanÖzdemir Distint ekledim
+*               AccountingDocument AS belnr,
+*               fiscalyear AS gjahr ,
+*               FinancialAccountType AS koart ,
+*               supplier AS lifnr ,
+*               AccountingDocumentItemType AS buzid,
+*               TaxCode AS mwskz,
+*               GLAccount AS hkont,
+*               Reference3IDByBusinessPartner AS xref3
+*               FROM i_operationalacctgdocitem AS bseg
+*               FOR ALL ENTRIES IN @et_bkpf
+*               WHERE bseg~CompanyCode EQ @et_bkpf-bukrs
+*                 AND bseg~AccountingDocument EQ @et_bkpf-belnr
+*                 AND bseg~fiscalyear EQ @et_bkpf-gjahr
+*                  INTO TABLE @et_bseg.
 
       ENDIF.
 
