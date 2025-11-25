@@ -226,8 +226,8 @@
 *
 *              ELSEIF ls_bset-shkzg EQ 'S'.
 
-                ls_collect-matrah = ls_bset-hwbas .
-                ls_collect-vergi  = ls_bset-hwste .
+              ls_collect-matrah = ls_bset-hwbas .
+              ls_collect-vergi  = ls_bset-hwste .
 
 *              ENDIF.
 
@@ -246,8 +246,8 @@
 *
 *              ELSEIF ls_bset-shkzg EQ 'S'.
 
-                ls_collect-matrah = ls_bset-hwbas .
-                ls_collect-vergi  = ls_bset-hwste .
+              ls_collect-matrah = ls_bset-hwbas .
+              ls_collect-vergi  = ls_bset-hwste .
 
 *              ENDIF.
               COLLECT ls_collect INTO mt_collect.
@@ -273,8 +273,8 @@
 *
 *              ELSEIF ls_bset-shkzg EQ 'S'.
 
-                ls_collect-matrah = ls_bset-hwbas .
-                ls_collect-vergi  = ls_bset-hwste .
+              ls_collect-matrah = ls_bset-hwbas .
+              ls_collect-vergi  = ls_bset-hwste .
 
 *              ENDIF.
               COLLECT ls_collect INTO mt_collect.
@@ -341,8 +341,8 @@
 *
 *              ELSEIF ls_bset-shkzg EQ 'S'.
 
-                ls_collect-matrah = ls_bset-hwbas .
-                ls_collect-vergi  = ls_bset-hwste .
+              ls_collect-matrah = ls_bset-hwbas .
+              ls_collect-vergi  = ls_bset-hwste .
 
 *              ENDIF.
               COLLECT ls_collect INTO mt_collect.
@@ -360,8 +360,8 @@
 *
 *              ELSEIF ls_bset-shkzg EQ 'S'.
 
-                ls_collect-matrah = ls_bset-hwbas .
-                ls_collect-vergi  = ls_bset-hwste .
+              ls_collect-matrah = ls_bset-hwbas .
+              ls_collect-vergi  = ls_bset-hwste .
 
 *              ENDIF.
               "<<D_ANANTU Alper NANTU Comment
@@ -388,8 +388,8 @@
 *
 *              ELSEIF ls_bset-shkzg EQ 'S'.
 
-                ls_collect-matrah = ls_bset-hwbas .
-                ls_collect-vergi  = ls_bset-hwste .
+              ls_collect-matrah = ls_bset-hwbas .
+              ls_collect-vergi  = ls_bset-hwste .
 
 *              ENDIF.
               COLLECT ls_collect INTO mt_collect.
