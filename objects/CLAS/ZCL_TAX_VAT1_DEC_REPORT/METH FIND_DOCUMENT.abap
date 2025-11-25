@@ -163,29 +163,29 @@
 
 
 
-        SELECT
-            bset~companycode         AS bukrs,
+      SELECT
+          bset~companycode         AS bukrs,
 *            bset~Accountingdocument  AS belnr,
 *            bset~fiscalyear          AS gjahr,
 *            bset~LedgerGLLineItem             AS buzei,
-            bset~taxcode             AS mwskz,
+          bset~taxcode             AS mwskz,
 SUM( CASE WHEN left( glaccount, 3 ) = '391' THEN amountincompanycodecurrency ELSE 0 END ) AS hwste,
 SUM( CASE WHEN left( glaccount, 3 ) <> '391' THEN amountincompanycodecurrency ELSE 0 END ) AS hwbas,
-            bset~debitcreditcode     AS shkzg,
+*          bset~debitcreditcode     AS shkzg,
 *            bset~TransactionTypeDetermination AS ktosl,
-            taxratio~conditionrateratio AS kbetr ,
-            taxratio~vatconditiontype AS kschl
+          taxratio~conditionrateratio AS kbetr ,
+          taxratio~vatconditiontype AS kschl
 *            bset~GLAccount AS hkont
-          FROM i_journalentryitem AS bset
+        FROM i_journalentryitem AS bset
 
-          INNER JOIN i_companycode AS t001
-          ON t001~companycode = bset~companycode
+        INNER JOIN i_companycode AS t001
+        ON t001~companycode = bset~companycode
 
-          LEFT JOIN i_taxcoderate AS taxratio
-          ON  taxratio~taxcode = bset~taxcode
-          AND  taxratio~AccountKeyForGLAccount = bset~TransactionTypeDetermination
-          AND taxratio~Country = t001~Country
-          AND taxratio~cndnrecordvalidityenddate = '99991231'
+        LEFT JOIN i_taxcoderate AS taxratio
+        ON  taxratio~taxcode = bset~taxcode
+        AND  taxratio~AccountKeyForGLAccount = bset~TransactionTypeDetermination
+        AND taxratio~Country = t001~Country
+        AND taxratio~cndnrecordvalidityenddate = '99991231'
 
 *
 *          LEFT JOIN i_operationalacctgdocitem AS docitem ON
@@ -201,20 +201,20 @@ SUM( CASE WHEN left( glaccount, 3 ) <> '391' THEN amountincompanycodecurrency EL
 **            AND bset~taxcode           IN @ir_mwskz
 *            AND bset~ledger             = '0L'
 *            AND bset~financialaccounttype = 'S'
- WHERE bset~ledger = '0L'
-   AND bset~companycode = @p_bukrs
-   AND bset~fiscalyear = @p_gjahr
-   AND bset~FiscalPeriod = '10'
-   AND bset~isreversal = ''
-   AND bset~isreversed = ''
-   AND bset~financialaccounttype = 'S'
-   GROUP BY bset~taxcode,
-            bset~companycode,
-            bset~debitcreditcode,
+WHERE bset~ledger = '0L'
+ AND bset~companycode = @p_bukrs
+ AND bset~fiscalyear = @p_gjahr
+ AND bset~FiscalPeriod = '10'
+ AND bset~isreversal = ''
+ AND bset~isreversed = ''
+ AND bset~financialaccounttype = 'S'
+ GROUP BY bset~taxcode,
+          bset~companycode,
+*          bset~debitcreditcode,
 *            bset~TransactionTypeDetermination,
-            taxratio~conditionrateratio,
-            taxratio~vatconditiontype
-        INTO CORRESPONDING FIELDS OF TABLE @et_bset.
+          taxratio~conditionrateratio,
+          taxratio~vatconditiontype
+      INTO CORRESPONDING FIELDS OF TABLE @et_bset.
 
 
 *      ENDIF.
