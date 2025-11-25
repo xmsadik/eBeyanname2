@@ -547,12 +547,12 @@
                           WHEN 'H'.
 
 
-                IF ls_bset-hkont(3) NE '391'.
-                  ls_collect-matrah = ls_bset-hwbas * -1.
-                ENDIF.
-                IF ls_bset-hkont(3) EQ '391'.
-                  ls_collect-vergi  = ls_bset-hwste * -1.
-                ENDIF.
+                            IF ls_bset-hkont(3) NE '391'.
+                              ls_collect-matrah = ls_bset-hwbas * -1.
+                            ENDIF.
+                            IF ls_bset-hkont(3) EQ '391'.
+                              ls_collect-vergi  = ls_bset-hwste * -1.
+                            ENDIF.
 
 
 

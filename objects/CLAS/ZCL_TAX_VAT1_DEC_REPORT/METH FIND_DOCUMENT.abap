@@ -169,6 +169,8 @@
             bset~fiscalyear          AS gjahr,
 *            bset~LedgerGLLineItem             AS buzei,
             bset~taxcode             AS mwskz,
+            bset~amountincompanycodecurrency as hwbas,
+            bset~amountincompanycodecurrency     AS hwste,
             bset~debitcreditcode     AS shkzg,
             bset~TransactionTypeDetermination AS ktosl,
             taxratio~conditionrateratio AS kbetr ,
@@ -199,7 +201,7 @@
 *            AND bset~taxcode           IN @ir_mwskz
             AND bset~ledger             = '0L'
             AND bset~financialaccounttype = 'S'
-        INTO CORRESPONDING FIELDS OF TABLE @et_bset.
+        INTO CORRESPONDING FIELDS of TABLE @et_bset.
 
 
       ENDIF.
