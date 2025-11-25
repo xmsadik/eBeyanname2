@@ -178,9 +178,9 @@
           lr_ktosl = VALUE #( sign = 'I' option = 'EQ' ( low =  'MWS' )
                                                        ( low =  'VST' ) ).
           IF ls_map-saknr IS NOT INITIAL.
-            LOOP AT lt_bset INTO ls_bset WHERE mwskz EQ ls_map-mwskz
+            LOOP AT lt_bset INTO ls_bset WHERE mwskz EQ ls_map-mwskz.
 *                                           AND hkont EQ ls_map-saknr
-                                           AND ktosl IN lr_ktosl.
+*                                           AND ktosl IN lr_ktosl.
 
 *              APPEND INITIAL LINE TO mt_detail ASSIGNING <fs_detail>.
 *              IF <fs_detail> IS ASSIGNED.
@@ -295,8 +295,8 @@
 
           ELSE.
 
-            LOOP AT lt_bset INTO ls_bset WHERE mwskz EQ ls_map-mwskz
-                                           AND ktosl IN lr_ktosl.
+            LOOP AT lt_bset INTO ls_bset WHERE mwskz EQ ls_map-mwskz.
+*                                           AND ktosl IN lr_ktosl.
 *              APPEND INITIAL LINE TO mt_detail ASSIGNING <fs_detail>.
 *              IF <fs_detail> IS ASSIGNED.
 *                CLEAR ls_bkpf.

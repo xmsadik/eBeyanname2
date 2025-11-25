@@ -172,7 +172,7 @@
 SUM( CASE WHEN left( glaccount, 3 ) = '391' THEN amountincompanycodecurrency ELSE 0 END ) AS hwste,
 SUM( CASE WHEN left( glaccount, 3 ) <> '391' THEN amountincompanycodecurrency ELSE 0 END ) AS hwbas,
             bset~debitcreditcode     AS shkzg,
-            bset~TransactionTypeDetermination AS ktosl,
+*            bset~TransactionTypeDetermination AS ktosl,
             taxratio~conditionrateratio AS kbetr ,
             taxratio~vatconditiontype AS kschl
 *            bset~GLAccount AS hkont
@@ -211,7 +211,7 @@ SUM( CASE WHEN left( glaccount, 3 ) <> '391' THEN amountincompanycodecurrency EL
    GROUP BY bset~taxcode,
             bset~companycode,
             bset~debitcreditcode,
-            bset~TransactionTypeDetermination,
+*            bset~TransactionTypeDetermination,
             taxratio~conditionrateratio,
             taxratio~vatconditiontype
         INTO CORRESPONDING FIELDS OF TABLE @et_bset.
