@@ -164,15 +164,18 @@
 
 
       SELECT
-      j~taxcode as mwskz , r~ConditionRateRatio as kbetr ,r~vatconditiontype as kschl,
-      SUM( CASE WHEN j~transactiontypedetermination <> ' ' THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwste,
-      SUM( CASE WHEN j~transactiontypedetermination = ' ' THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwbas
+      j~taxcode AS mwskz , r~ConditionRateRatio AS kbetr ,r~vatconditiontype AS kschl,
+        SUM( CASE WHEN ( j~transactiontypedetermination = 'VST' OR
+                         j~transactiontypedetermination = 'MWS' )  THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwste,
+        SUM( CASE WHEN ( j~transactiontypedetermination <> 'VST' AND
+                         j~transactiontypedetermination <> 'MWS' ) THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwbas
       FROM i_journalentryitem AS j
-      LEFT OUTER JOIN i_taxcoderate AS r
-*on r~country = j~CountryChartOfAccounts
-      ON r~CndnRecordValidityStartDate <= j~DocumentDate
-      AND r~CndnRecordValidityEndDate >= j~DocumentDate
-      AND r~taxcode = j~taxcode
+    LEFT OUTER JOIN i_taxcoderate AS r
+*    on r~country = j~CountryChartOfAccounts
+    ON r~CndnRecordValidityStartDate <= j~DocumentDate
+    AND r~CndnRecordValidityEndDate >= j~DocumentDate
+    AND r~taxcode = j~taxcode
+    AND ( r~AccountKeyForGLAccount = 'VST' OR r~AccountKeyForGLAccount = 'MWS' )
       WHERE j~ledger = '0L'
          AND j~companycode = @p_bukrs
          AND j~fiscalyear = @p_gjahr
@@ -183,7 +186,7 @@
          AND j~taxcode <> ''
          GROUP BY j~taxcode, r~ConditionRateRatio,r~vatconditiontype
       ORDER BY j~taxcode
-      into CORRESPONDING FIELDS OF table @et_bset   .
+      INTO CORRESPONDING FIELDS OF TABLE @et_bset   .
 
 
 
@@ -193,11 +196,11 @@
 
 
 
-      ENDIF.
+    ENDIF.
 
-      IF is_read_tab-bseg EQ abap_true.
+    IF is_read_tab-bseg EQ abap_true.
 
-        IF lines( et_bset ) GT 0.
+      IF lines( et_bset ) GT 0.
 *        SELECT *
 *               INTO TABLE et_bseg
 *               FROM bseg
@@ -222,7 +225,7 @@
 *                 AND bseg~fiscalyear EQ @et_bset-gjahr
 *                  INTO TABLE @et_bseg.
 
-        ELSEIF lines( et_bkpf ) GT 0.
+      ELSEIF lines( et_bkpf ) GT 0.
 *        SELECT *
 *               INTO TABLE et_bseg
 *               FROM bseg
@@ -247,8 +250,8 @@
 *                 AND bseg~fiscalyear EQ @et_bkpf-gjahr
 *                  INTO TABLE @et_bseg.
 
-        ENDIF.
-
       ENDIF.
 
-    ENDMETHOD.
+    ENDIF.
+
+  ENDMETHOD.
