@@ -200,7 +200,7 @@
             AND bset~fiscalyear         = bkpf~gjahr
 *            AND bset~taxcode           IN @ir_mwskz
             AND bset~ledger             = '0L'
-            AND bset~financialaccounttype = 's'
+            AND bset~financialaccounttype = 'S'
         INTO CORRESPONDING FIELDS OF TABLE @et_bset.
 
 
