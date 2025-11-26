@@ -129,8 +129,8 @@
              country AS land1
 
              FROM i_supplier
-             FOR ALL ENTRIES IN @lt_lifnr_man
-             WHERE supplier EQ @lt_lifnr_man-lifnr
+            INNER JOIN @lt_lifnr_man AS man
+             ON supplier EQ man~lifnr
                 INTO TABLE @lt_lfa1_man.
     ENDIF.
 
@@ -155,8 +155,8 @@
              taxnumber1 AS stcd2,
              country AS land1
              FROM i_supplier
-             FOR ALL ENTRIES IN @lt_lifnr
-             WHERE supplier EQ @lt_lifnr-lifnr
+             INNER JOIN @lt_lifnr AS lifnr
+             ON supplier EQ lifnr~lifnr
              INTO TABLE @lt_lfa1.
 
     ENDIF.

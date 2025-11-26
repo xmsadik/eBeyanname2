@@ -184,10 +184,10 @@
 
                FROM i_journalentryitem
 
-               FOR ALL ENTRIES IN @et_bset
-               WHERE i_journalentryitem~companycode EQ @et_bset-bukrs
-                 AND i_journalentryitem~accountingdocument EQ @et_bset-belnr
-                 AND i_journalentryitem~fiscalyear EQ @et_bset-gjahr
+               INNER JOIN @et_bset AS bset
+               ON i_journalentryitem~companycode EQ bset~bukrs
+                 AND i_journalentryitem~accountingdocument EQ bset~belnr
+                 AND i_journalentryitem~fiscalyear EQ bset~gjahr
 
                  INTO CORRESPONDING FIELDS OF TABLE @et_bseg.
       ELSEIF lines( et_bkpf ) GT 0.
@@ -200,10 +200,10 @@
                i_journalentryitem~taxcode AS mwskz
 
                FROM i_journalentryitem
-               INNER JOIN @et_bkpf AS BKPF
-               ON  i_journalentryitem~companycode EQ BKPF~bukrs
-                 AND i_journalentryitem~accountingdocument EQ BKPF~belnr
-                 AND i_journalentryitem~fiscalyear EQ BKPF~gjahr
+               INNER JOIN @et_bkpf AS bkpf
+               ON  i_journalentryitem~companycode EQ bkpf~bukrs
+                 AND i_journalentryitem~accountingdocument EQ bkpf~belnr
+                 AND i_journalentryitem~fiscalyear EQ bkpf~gjahr
                    INTO CORRESPONDING FIELDS OF TABLE @et_bseg.
       ENDIF.
     ENDIF.
