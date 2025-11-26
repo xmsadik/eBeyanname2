@@ -647,6 +647,7 @@ CLASS lhc_ztax_ddl_i_vat2_beyan_repo IMPLEMENTATION.
 
         CLEAR: lv_char_matrah , lv_char_tevkifat.
         lv_char_matrah   = ls_lifnr_sum_kesinti-matrah.
+        CONDENSE lv_char_matrah NO-GAPS.
         lv_char_tevkifat = ls_lifnr_sum_kesinti-tevkt.
 
         IF ls_lifnr_sum_kesinti-tckn IS NOT INITIAL.

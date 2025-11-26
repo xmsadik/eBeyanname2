@@ -152,7 +152,7 @@
              suppliername AS name1,
 *             CustomerName as name2,
              addresssearchterm1 AS mcod1,
-             taxnumber1 AS stcd2,
+             taxnumber2 AS stcd2,
              country AS land1
              FROM i_supplier
              INNER JOIN @lt_lifnr AS lifnr
