@@ -6,6 +6,13 @@
     TRY.
 
 
+        DATA(lo_paging) = io_request->get_paging( ).
+        DATA(top)       = lo_paging->get_page_size( ).
+        DATA(skip)      = lo_paging->get_offset( ).
+        IF top < 0.
+          top = 1.
+        ENDIF.
+
         DATA(lt_filter) = io_request->get_filter( )->get_as_ranges( ).
         DATA: lt_bukrs_range  TYPE RANGE OF bukrs,
               lt_gjahr_range  TYPE RANGE OF gjahr,
@@ -51,6 +58,11 @@
 
 
         LOOP AT mt_collect INTO DATA(ls_collect).
+
+          IF skip IS NOT INITIAL.
+            CHECK sy-tabix > skip.
+          ENDIF.
+
           APPEND INITIAL LINE TO lt_output ASSIGNING FIELD-SYMBOL(<fs_output>).
           MOVE-CORRESPONDING ls_collect TO <fs_output>.
           <fs_output>-bukrs = p_bukrs.
@@ -59,7 +71,9 @@
 
           lv_lineitem = lv_lineitem + 1.
           <fs_output>-lineitem = lv_lineitem.
-
+          IF lines( lt_output ) >= top.
+            EXIT.
+          ENDIF.
         ENDLOOP.
 
         SORT lt_output BY kiril1 kiril2 kiril3.
@@ -73,7 +87,7 @@
 
 
         IF io_request->is_total_numb_of_rec_requested(  ).
-          io_response->set_total_number_of_records( iv_total_number_of_records = lines( lt_output ) ).
+          io_response->set_total_number_of_records( iv_total_number_of_records = lines( mt_collect ) ).
         ENDIF.
         io_response->set_data( it_data = lt_output ).
 
