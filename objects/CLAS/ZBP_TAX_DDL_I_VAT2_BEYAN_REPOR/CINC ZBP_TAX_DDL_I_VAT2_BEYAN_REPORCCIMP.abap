@@ -367,6 +367,7 @@ CLASS lhc_ztax_ddl_i_vat2_beyan_repo IMPLEMENTATION.
                   '</tcKimlikNo>'
                   INTO lv_hsvtckimlikno.
 
+
       CONCATENATE '<eposta>'
                   ls_beyg-hsvemail
                   '</eposta>'
@@ -452,6 +453,7 @@ CLASS lhc_ztax_ddl_i_vat2_beyan_repo IMPLEMENTATION.
                   lv_hsvadi
                   lv_hsvvergino
                   lv_hsvtckimlikno
+                  lv_tsicil
                   lv_hsveposta
                   lv_hsvalankodu
                   lv_hsvtelno
@@ -464,6 +466,7 @@ CLASS lhc_ztax_ddl_i_vat2_beyan_repo IMPLEMENTATION.
                   lv_deposta
                   lv_dalankodu
                   lv_dtelno
+                  lv_tsicil
                   '</duzenleyen>'
                   '</genel>'
                   '<ozel>'

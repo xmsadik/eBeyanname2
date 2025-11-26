@@ -558,6 +558,7 @@ CLASS lhc_ZTAX_DDL_I_VAT1_DEC_REPORT IMPLEMENTATION.
                 lv_hsvadi
                 lv_hsvvergino
                 lv_hsvtckimlikno
+                lv_tsicil
                 lv_hsveposta
                 lv_hsvalankodu
                 lv_hsvtelno
@@ -570,6 +571,7 @@ CLASS lhc_ZTAX_DDL_I_VAT1_DEC_REPORT IMPLEMENTATION.
                 lv_deposta
                 lv_dalankodu
                 lv_dtelno
+                lv_tsicil
                 '</duzenleyen>'
                 '</genel>'
                 '<ozel>'
