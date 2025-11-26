@@ -1,34 +1,34 @@
-CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER.
+CLASS lhc_ztax_ddl_i_vat2_kes_report DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
   PUBLIC SECTION.
 
-    TYPES BEGIN OF MTY_COLLECT.
-    TYPES KIRIL1    TYPE ZTAX_T_KDV2G-KIRIL1.
-    TYPES ACKLM1    TYPE ZTAX_T_K2K1-ACKLM.
-    TYPES KIRIL2    TYPE ZTAX_T_KDV2G-KIRIL2.
-    TYPES ACKLM2    TYPE ZTAX_T_K2K2-ACKLM.
+    TYPES BEGIN OF mty_collect.
+    TYPES kiril1    TYPE ztax_t_kdv2g-kiril1.
+    TYPES acklm1    TYPE ztax_t_k2k1-acklm.
+    TYPES kiril2    TYPE ztax_t_kdv2g-kiril2.
+    TYPES acklm2    TYPE ztax_t_k2k2-acklm.
 *    TYPES KIRIL3    TYPE DD07T-DDTEXT.
-    TYPES MATRAH    TYPE ZTAX_E_MATRAH.
-    TYPES ORAN      TYPE ZTAX_E_VERGI_ORAN.
-    TYPES TEVKIFAT  TYPE ZTAX_E_TEVKIFAT.
-    TYPES TEVKIFATO TYPE ZTAX_E_TEVKIFAT_ORAN.
-    TYPES VERGI     TYPE ZTAX_E_VERGI.
-    TYPES FIELD_COM(200) TYPE C.
-    TYPES END OF MTY_COLLECT.
+    TYPES matrah    TYPE ztax_e_matrah.
+    TYPES oran      TYPE ztax_e_vergi_oran.
+    TYPES tevkifat  TYPE ztax_e_tevkifat.
+    TYPES tevkifato TYPE ztax_e_tevkifat_oran.
+    TYPES vergi     TYPE ztax_e_vergi.
+    TYPES field_com(200) TYPE c.
+    TYPES END OF mty_collect.
 
-    TYPES MTY_X(256)       TYPE X.
-    TYPES MTTY_X           TYPE TABLE OF MTY_X.
+    TYPES mty_x(256)       TYPE x.
+    TYPES mtty_x           TYPE TABLE OF mty_x.
 
 *    TYPES MTTY_DD07V       TYPE TABLE OF DD07V.
 
-    DATA MR_MONAT TYPE RANGE OF MONAT.
+    DATA mr_monat TYPE RANGE OF monat.
 
-    DATA MT_KESINTI                TYPE TABLE OF ZTAX_DDL_I_VAT2_KES_REPORT.
+    DATA mt_kesinti                TYPE TABLE OF ztax_ddl_i_vat2_kes_report.
 
   PRIVATE SECTION.
 
-    METHODS GET_INSTANCE_AUTHORIZATIONS FOR INSTANCE AUTHORIZATION
-      IMPORTING KEYS REQUEST REQUESTED_AUTHORIZATIONS FOR ZTAX_DDL_I_VAT2_KES_REPORT RESULT RESULT.
+    METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
+      IMPORTING keys REQUEST requested_authorizations FOR ztax_ddl_i_vat2_kes_report RESULT result.
 
 *    METHODS CREATE FOR MODIFY
 *      IMPORTING ENTITIES FOR CREATE ZTAX_DDL_I_VAT2_KES_REPORT.
@@ -39,20 +39,20 @@ CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR
 *    METHODS DELETE FOR MODIFY
 *      IMPORTING KEYS FOR DELETE ZTAX_DDL_I_VAT2_KES_REPORT.
 
-    METHODS READ FOR READ
-      IMPORTING KEYS FOR READ ZTAX_DDL_I_VAT2_KES_REPORT RESULT RESULT.
+    METHODS read FOR READ
+      IMPORTING keys FOR READ ztax_ddl_i_vat2_kes_report RESULT result.
 
-    METHODS LOCK FOR LOCK
-      IMPORTING KEYS FOR LOCK ZTAX_DDL_I_VAT2_KES_REPORT.
+    METHODS lock FOR LOCK
+      IMPORTING keys FOR LOCK ztax_ddl_i_vat2_kes_report.
 
-    METHODS ADDRECORD FOR MODIFY
-      IMPORTING KEYS FOR ACTION ZTAX_DDL_I_VAT2_KES_REPORT~ADDRECORD RESULT RESULT.
+    METHODS addrecord FOR MODIFY
+      IMPORTING keys FOR ACTION ztax_ddl_i_vat2_kes_report~addrecord RESULT result.
 
-    METHODS DELETERECORD FOR MODIFY
-      IMPORTING KEYS FOR ACTION ZTAX_DDL_I_VAT2_KES_REPORT~DELETERECORD RESULT RESULT.
+    METHODS deleterecord FOR MODIFY
+      IMPORTING keys FOR ACTION ztax_ddl_i_vat2_kes_report~deleterecord RESULT result.
 
-    METHODS UPDATERECORD FOR MODIFY
-      IMPORTING KEYS FOR ACTION ZTAX_DDL_I_VAT2_KES_REPORT~UPDATERECORD  RESULT RESULT.
+    METHODS updaterecord FOR MODIFY
+      IMPORTING keys FOR ACTION ztax_ddl_i_vat2_kes_report~updaterecord  RESULT result.
 
     METHODS createxml FOR MODIFY
       IMPORTING keys FOR ACTION ztax_ddl_i_vat2_kes_report~createxml RESULT result.
@@ -61,9 +61,9 @@ CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR
 
 ENDCLASS.
 
-CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT IMPLEMENTATION.
+CLASS lhc_ztax_ddl_i_vat2_kes_report IMPLEMENTATION.
 
-  METHOD GET_INSTANCE_AUTHORIZATIONS.
+  METHOD get_instance_authorizations.
   ENDMETHOD.
 
 *  METHOD CREATE.
@@ -75,83 +75,83 @@ CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT IMPLEMENTATION.
 *  METHOD DELETE.
 *  ENDMETHOD.
 
-  METHOD READ.
+  METHOD read.
 
   ENDMETHOD.
 
-  METHOD LOCK.
+  METHOD lock.
   ENDMETHOD.
 
-  METHOD ADDRECORD.
-    DATA LT_NEW_ENTRIES TYPE TABLE OF ZTAX_T_K2MT.
-    DATA LS_NEW_ENTRY TYPE ZTAX_T_K2MT.
+  METHOD addrecord.
+    DATA lt_new_entries TYPE TABLE OF ztax_t_k2mt.
+    DATA ls_new_entry TYPE ztax_t_k2mt.
 *    CONSTANTS LC_NEW_LINE_BELNR    TYPE I_JOURNALENTRY-AccountingDocument VALUE '**********'.
-    READ TABLE KEYS INTO DATA(LS_KEY) INDEX 1.
-    CHECK SY-SUBRC = 0.
+    READ TABLE keys INTO DATA(ls_key) INDEX 1.
+    CHECK sy-subrc = 0.
 
 
-    SELECT MAX( BUZEI )
+    SELECT MAX( buzei )
 
-           FROM ZTAX_T_K2MT
-           WHERE BUKRS EQ @LS_KEY-%PARAM-BUKRS
-             AND GJAHR EQ @LS_KEY-%PARAM-GJAHR
-             AND MONAT EQ @LS_KEY-%PARAM-MONAT
-             INTO @DATA(LV_BUZEI).
+           FROM ztax_t_k2mt
+           WHERE bukrs EQ @ls_key-%param-bukrs
+             AND gjahr EQ @ls_key-%param-gjahr
+             AND monat EQ @ls_key-%param-monat
+             INTO @DATA(lv_buzei).
 
-    LV_BUZEI = LV_BUZEI + 1.
-
-
+    lv_buzei = lv_buzei + 1.
 
 
-    LS_NEW_ENTRY-BUKRS = LS_KEY-%PARAM-BUKRS.
-    LS_NEW_ENTRY-GJAHR = LS_KEY-%PARAM-GJAHR.
-    LS_NEW_ENTRY-MONAT = LS_KEY-%PARAM-MONAT.
-    LS_NEW_ENTRY-BUZEI = LV_BUZEI."LS_KEY-%PARAM-BUZEI.
-    LS_NEW_ENTRY-TCKN = LS_KEY-%PARAM-TCKN.
-    LS_NEW_ENTRY-VKN = LS_KEY-%PARAM-VKN.
-    LS_NEW_ENTRY-LIFNR = LS_KEY-%PARAM-LIFNR.
-    LS_NEW_ENTRY-NAME1 = LS_KEY-%PARAM-NAME1.
-    LS_NEW_ENTRY-NAME2 = LS_KEY-%PARAM-NAME2.
-    LS_NEW_ENTRY-MATRAH = LS_KEY-%PARAM-MATRAH.
-    LS_NEW_ENTRY-VERGI = LS_KEY-%PARAM-VERGI.
-    LS_NEW_ENTRY-TEVKT = LS_KEY-%PARAM-TEVKT.
-    LS_NEW_ENTRY-MWSKZ = LS_KEY-%PARAM-MWSKZ.
-    LS_NEW_ENTRY-K2TYPE = LS_KEY-%PARAM-REFRECTION2.
-    LS_NEW_ENTRY-ODMTR = LS_KEY-%PARAM-ODMTR.
-    LS_NEW_ENTRY-MANUEL = LS_KEY-%PARAM-MANUEL.
-    LS_NEW_ENTRY-VERGIDIS = LS_KEY-%PARAM-VERGIDIS.
-    LS_NEW_ENTRY-VERGIIC = LS_KEY-%PARAM-VERGIIC.
+
+
+    ls_new_entry-bukrs = ls_key-%param-bukrs.
+    ls_new_entry-gjahr = ls_key-%param-gjahr.
+    ls_new_entry-monat = ls_key-%param-monat.
+    ls_new_entry-buzei = lv_buzei."LS_KEY-%PARAM-BUZEI.
+    ls_new_entry-tckn = ls_key-%param-tckn.
+    ls_new_entry-vkn = ls_key-%param-vkn.
+    ls_new_entry-lifnr = ls_key-%param-lifnr.
+    ls_new_entry-name1 = ls_key-%param-name1.
+    ls_new_entry-name2 = ls_key-%param-name2.
+    ls_new_entry-matrah = ls_key-%param-matrah.
+    ls_new_entry-vergi = ls_key-%param-vergi.
+    ls_new_entry-tevkt = ls_key-%param-tevkt.
+    ls_new_entry-mwskz = ls_key-%param-mwskz.
+    ls_new_entry-k2type = ls_key-%param-refrection2.
+    ls_new_entry-odmtr = ls_key-%param-odmtr.
+    ls_new_entry-manuel = ls_key-%param-manuel.
+    ls_new_entry-vergidis = ls_key-%param-vergidis.
+    ls_new_entry-vergiic = ls_key-%param-vergiic.
 *    ls_new_entry-Waers  = 'TRY'.
 
-    APPEND LS_NEW_ENTRY TO LT_NEW_ENTRIES.
+    APPEND ls_new_entry TO lt_new_entries.
 
     TRY.
 
 
-        MODIFY ZTAX_T_K2MT FROM TABLE @LT_NEW_ENTRIES.
+        MODIFY ztax_t_k2mt FROM TABLE @lt_new_entries.
 
 *
-      CATCH CX_UUID_ERROR.
+      CATCH cx_uuid_error.
 
 
     ENDTRY.
 
   ENDMETHOD.
 
-  METHOD DELETERECORD.
+  METHOD deleterecord.
 
     TRY.
 
-        READ TABLE KEYS INTO DATA(LS_KEY) INDEX 1.
-        CHECK SY-SUBRC = 0.
-        DELETE FROM ZTAX_T_K2MT WHERE BUKRS = @LS_KEY-%PARAM-BUKRS
-                               AND GJAHR = @LS_KEY-%PARAM-GJAHR
-                               AND MONAT = @LS_KEY-%PARAM-MONAT
-                               AND BUZEI = @LS_KEY-%PARAM-BUZEI.
+        READ TABLE keys INTO DATA(ls_key) INDEX 1.
+        CHECK sy-subrc = 0.
+        DELETE FROM ztax_t_k2mt WHERE bukrs = @ls_key-%param-bukrs
+                               AND gjahr = @ls_key-%param-gjahr
+                               AND monat = @ls_key-%param-monat
+                               AND buzei = @ls_key-%param-buzei.
 
 
 *
-      CATCH CX_UUID_ERROR.
+      CATCH cx_uuid_error.
 
 
     ENDTRY.
@@ -159,162 +159,162 @@ CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT IMPLEMENTATION.
 
   ENDMETHOD.
 
-  METHOD UPDATERECORD.
+  METHOD updaterecord.
 
 
-    DATA LT_NEW_ENTRIES TYPE TABLE OF ZTAX_T_K2MT.
-    DATA LS_NEW_ENTRY TYPE ZTAX_T_K2MT.
+    DATA lt_new_entries TYPE TABLE OF ztax_t_k2mt.
+    DATA ls_new_entry TYPE ztax_t_k2mt.
 *    CONSTANTS LC_NEW_LINE_BELNR    TYPE I_JOURNALENTRY-AccountingDocument VALUE '**********'.
-    READ TABLE KEYS INTO DATA(LS_KEY) INDEX 1.
-    CHECK SY-SUBRC = 0.
+    READ TABLE keys INTO DATA(ls_key) INDEX 1.
+    CHECK sy-subrc = 0.
 
 
-    SELECT MAX( BUZEI )
-           FROM ZTAX_T_K2MT
-           WHERE BUKRS EQ @LS_KEY-%PARAM-BUKRS
-             AND GJAHR EQ @LS_KEY-%PARAM-GJAHR
-             AND MONAT EQ @LS_KEY-%PARAM-MONAT
-             INTO @DATA(LV_BUZEI).
+    SELECT MAX( buzei )
+           FROM ztax_t_k2mt
+           WHERE bukrs EQ @ls_key-%param-bukrs
+             AND gjahr EQ @ls_key-%param-gjahr
+             AND monat EQ @ls_key-%param-monat
+             INTO @DATA(lv_buzei).
 
 
-    LS_NEW_ENTRY-BUKRS = LS_KEY-%PARAM-BUKRS.
-    LS_NEW_ENTRY-GJAHR = LS_KEY-%PARAM-GJAHR.
-    LS_NEW_ENTRY-MONAT = LS_KEY-%PARAM-MONAT.
-    LS_NEW_ENTRY-BUZEI = LV_BUZEI."LS_KEY-%PARAM-BUZEI.
-    LS_NEW_ENTRY-TCKN = LS_KEY-%PARAM-TCKN.
-    LS_NEW_ENTRY-VKN = LS_KEY-%PARAM-VKN.
-    LS_NEW_ENTRY-LIFNR = LS_KEY-%PARAM-LIFNR.
-    LS_NEW_ENTRY-NAME1 = LS_KEY-%PARAM-NAME1.
-    LS_NEW_ENTRY-NAME2 = LS_KEY-%PARAM-NAME2.
-    LS_NEW_ENTRY-MATRAH = LS_KEY-%PARAM-MATRAH.
-    LS_NEW_ENTRY-VERGI = LS_KEY-%PARAM-VERGI.
-    LS_NEW_ENTRY-TEVKT = LS_KEY-%PARAM-TEVKT.
-    LS_NEW_ENTRY-MWSKZ = LS_KEY-%PARAM-MWSKZ.
-    LS_NEW_ENTRY-K2TYPE = LS_KEY-%PARAM-REFRECTION2.
-    LS_NEW_ENTRY-ODMTR = LS_KEY-%PARAM-ODMTR.
-    LS_NEW_ENTRY-MANUEL = LS_KEY-%PARAM-MANUEL.
-    LS_NEW_ENTRY-VERGIDIS = LS_KEY-%PARAM-VERGIDIS.
-    LS_NEW_ENTRY-VERGIIC = LS_KEY-%PARAM-VERGIIC.
+    ls_new_entry-bukrs = ls_key-%param-bukrs.
+    ls_new_entry-gjahr = ls_key-%param-gjahr.
+    ls_new_entry-monat = ls_key-%param-monat.
+    ls_new_entry-buzei = lv_buzei."LS_KEY-%PARAM-BUZEI.
+    ls_new_entry-tckn = ls_key-%param-tckn.
+    ls_new_entry-vkn = ls_key-%param-vkn.
+    ls_new_entry-lifnr = ls_key-%param-lifnr.
+    ls_new_entry-name1 = ls_key-%param-name1.
+    ls_new_entry-name2 = ls_key-%param-name2.
+    ls_new_entry-matrah = ls_key-%param-matrah.
+    ls_new_entry-vergi = ls_key-%param-vergi.
+    ls_new_entry-tevkt = ls_key-%param-tevkt.
+    ls_new_entry-mwskz = ls_key-%param-mwskz.
+    ls_new_entry-k2type = ls_key-%param-refrection2.
+    ls_new_entry-odmtr = ls_key-%param-odmtr.
+    ls_new_entry-manuel = ls_key-%param-manuel.
+    ls_new_entry-vergidis = ls_key-%param-vergidis.
+    ls_new_entry-vergiic = ls_key-%param-vergiic.
 *    ls_new_entry-Waers  = 'TRY'.
 
-    APPEND LS_NEW_ENTRY TO LT_NEW_ENTRIES.
+    APPEND ls_new_entry TO lt_new_entries.
 
     TRY.
 
 
-        MODIFY ZTAX_T_K2MT FROM TABLE @LT_NEW_ENTRIES.
+        MODIFY ztax_t_k2mt FROM TABLE @lt_new_entries.
 
 *
-      CATCH CX_UUID_ERROR.
+      CATCH cx_uuid_error.
 
 
     ENDTRY.
 
   ENDMETHOD.
 
-  METHOD CREATEXML.
+  METHOD createxml.
 
 
-    TYPES BEGIN OF LTY_BEYG.
-    TYPES BUKRS    TYPE ZTAX_T_BEYG-BUKRS.
-    TYPES VDKOD    TYPE ZTAX_T_BEYG-VDKOD.
-    TYPES MVKNO    TYPE ZTAX_T_BEYG-MVKNO.
-    TYPES MTCKN    TYPE ZTAX_T_BEYG-MTCKN.
-    TYPES MSOYAD   TYPE ZTAX_T_BEYG-MSOYAD.
-    TYPES MAD      TYPE ZTAX_T_BEYG-MAD.
-    TYPES MEMAIL   TYPE ZTAX_T_BEYG-MEMAIL.
-    TYPES MALKOD   TYPE ZTAX_T_BEYG-MALKOD.
-    TYPES MTELNO   TYPE ZTAX_T_BEYG-MTELNO.
-    TYPES HSVVKN   TYPE ZTAX_T_BEYG-HSVVKN.
-    TYPES HSV      TYPE ZTAX_T_BEYG-HSV.
-    TYPES HSVTCKN  TYPE ZTAX_T_BEYG-HSVTCKN.
-    TYPES HSVEMAIL TYPE ZTAX_T_BEYG-HSVEMAIL.
-    TYPES HSVAKOD  TYPE ZTAX_T_BEYG-HSVAKOD.
-    TYPES HSVTELNO TYPE ZTAX_T_BEYG-HSVTELNO.
-    TYPES DVKNO    TYPE ZTAX_T_BEYG-DVKNO.
-    TYPES DTCKN    TYPE ZTAX_T_BEYG-DTCKN.
-    TYPES DSOYAD   TYPE ZTAX_T_BEYG-DSOYAD.
-    TYPES DAD      TYPE ZTAX_T_BEYG-DAD.
-    TYPES DEMAIL   TYPE ZTAX_T_BEYG-DEMAIL.
-    TYPES DALKOD   TYPE ZTAX_T_BEYG-DALKOD.
-    TYPES DTELNO   TYPE ZTAX_T_BEYG-DTELNO.
-    TYPES END OF LTY_BEYG.
+    TYPES BEGIN OF lty_beyg.
+    TYPES bukrs    TYPE ztax_t_beyg-bukrs.
+    TYPES vdkod    TYPE ztax_t_beyg-vdkod.
+    TYPES mvkno    TYPE ztax_t_beyg-mvkno.
+    TYPES mtckn    TYPE ztax_t_beyg-mtckn.
+    TYPES msoyad   TYPE ztax_t_beyg-msoyad.
+    TYPES mad      TYPE ztax_t_beyg-mad.
+    TYPES memail   TYPE ztax_t_beyg-memail.
+    TYPES malkod   TYPE ztax_t_beyg-malkod.
+    TYPES mtelno   TYPE ztax_t_beyg-mtelno.
+    TYPES hsvvkn   TYPE ztax_t_beyg-hsvvkn.
+    TYPES hsv      TYPE ztax_t_beyg-hsv.
+    TYPES hsvtckn  TYPE ztax_t_beyg-hsvtckn.
+    TYPES hsvemail TYPE ztax_t_beyg-hsvemail.
+    TYPES hsvakod  TYPE ztax_t_beyg-hsvakod.
+    TYPES hsvtelno TYPE ztax_t_beyg-hsvtelno.
+    TYPES dvkno    TYPE ztax_t_beyg-dvkno.
+    TYPES dtckn    TYPE ztax_t_beyg-dtckn.
+    TYPES dsoyad   TYPE ztax_t_beyg-dsoyad.
+    TYPES dad      TYPE ztax_t_beyg-dad.
+    TYPES demail   TYPE ztax_t_beyg-demail.
+    TYPES dalkod   TYPE ztax_t_beyg-dalkod.
+    TYPES dtelno   TYPE ztax_t_beyg-dtelno.
+    TYPES END OF lty_beyg.
 
-    TYPES BEGIN OF LTY_XML_DATA.
-    TYPES LIFNR  TYPE ZTAX_DDL_I_VAT2_KES_REPORT-LIFNR.
-    TYPES NAME1  TYPE ZTAX_DDL_I_VAT2_KES_REPORT-NAME1.
-    TYPES NAME2  TYPE ZTAX_DDL_I_VAT2_KES_REPORT-NAME2.
-    TYPES TCKN   TYPE ZTAX_DDL_I_VAT2_KES_REPORT-TCKN.
-    TYPES VKN    TYPE ZTAX_DDL_I_VAT2_KES_REPORT-VKN.
-    TYPES MATRAH TYPE ZTAX_DDL_I_VAT2_KES_REPORT-MATRAH.
-    TYPES TEVKT  TYPE ZTAX_DDL_I_VAT2_KES_REPORT-TEVKT.
-    TYPES ODMTR  TYPE ZTAX_DDL_I_VAT2_KES_REPORT-ODMTR.
-    TYPES END OF LTY_XML_DATA.
+    TYPES BEGIN OF lty_xml_data.
+    TYPES lifnr  TYPE ztax_ddl_i_vat2_kes_report-lifnr.
+    TYPES name1  TYPE ztax_ddl_i_vat2_kes_report-name1.
+    TYPES name2  TYPE ztax_ddl_i_vat2_kes_report-name2.
+    TYPES tckn   TYPE ztax_ddl_i_vat2_kes_report-tckn.
+    TYPES vkn    TYPE ztax_ddl_i_vat2_kes_report-vkn.
+    TYPES matrah TYPE ztax_ddl_i_vat2_kes_report-matrah.
+    TYPES tevkt  TYPE ztax_ddl_i_vat2_kes_report-tevkt.
+    TYPES odmtr  TYPE ztax_ddl_i_vat2_kes_report-odmtr.
+    TYPES END OF lty_xml_data.
 
-    DATA LT_XML_DATA TYPE TABLE OF LTY_XML_DATA.
-    DATA LS_XML_DATA TYPE LTY_XML_DATA.
+    DATA lt_xml_data TYPE TABLE OF lty_xml_data.
+    DATA ls_xml_data TYPE lty_xml_data.
 
-    DATA LV_DONEM_TXT(30).
-    DATA LV_VALUE(100).
-    DATA LV_BEYANV        TYPE ZTAX_T_BEYV-BEYANV.
-    DATA LV_DYOLU         TYPE ZTAX_T_BEYDY-DYOLU.
-    DATA LS_BEYG          TYPE LTY_BEYG.
-    DATA LV_MONAT         TYPE MONAT.
-    DATA LV_XML_STRING    TYPE STRING.
-    DATA LV_XML           TYPE STRING.
-    DATA LV_CHAR_AMOUNT1  TYPE STRING.
-    DATA LV_CHAR_AMOUNT2  TYPE STRING.
-    DATA LV_CHAR_AMOUNT3  TYPE STRING.
-    DATA LT_KIRIL1        TYPE TABLE OF MTY_COLLECT.
-    DATA LT_KIRIL2        TYPE TABLE OF MTY_COLLECT.
-    DATA LT_KIRIL3        TYPE TABLE OF MTY_COLLECT.
-    DATA LS_KIRIL1        TYPE MTY_COLLECT.
-    DATA LS_KIRIL2        TYPE MTY_COLLECT.
-    DATA LS_KIRIL3        TYPE MTY_COLLECT.
-    DATA LV_KODVER        TYPE STRING.
-    DATA LV_NONAMESPACE   TYPE STRING.
-    DATA LV_XMLSTRING     TYPE STRING.
-    DATA LV_VDKOD         TYPE STRING.
-    DATA LV_TIP           TYPE STRING.
-    DATA LV_YIL           TYPE STRING.
-    DATA LV_AY            TYPE STRING.
-    DATA LV_MVERGINO      TYPE STRING.
-    DATA LV_MTCKIMLIKNO   TYPE STRING.
-    DATA LV_MSOYADI       TYPE STRING.
-    DATA LV_MADI          TYPE STRING.
-    DATA LV_MEPOSTA       TYPE STRING.
-    DATA LV_MALANKODU     TYPE STRING.
-    DATA LV_MTELNO        TYPE STRING.
-    DATA LV_HSV           TYPE STRING.
-    DATA LV_HSVSOYADI     TYPE STRING.
-    DATA LV_HSVADI        TYPE STRING.
-    DATA LV_HSVVERGINO    TYPE STRING.
-    DATA LV_HSVTCKIMLIKNO TYPE STRING.
-    DATA LV_HSVEPOSTA     TYPE STRING.
-    DATA LV_HSVALANKODU   TYPE STRING.
-    DATA LV_HSVTELNO      TYPE STRING.
-    DATA LV_DVERGINO      TYPE STRING.
-    DATA LV_DTCKIMLIKNO   TYPE STRING.
-    DATA LV_DSOYADI       TYPE STRING.
-    DATA LV_DADI          TYPE STRING.
-    DATA LV_DEPOSTA       TYPE STRING.
-    DATA LV_DALANKODU     TYPE STRING.
-    DATA LV_DTELNO        TYPE STRING.
-    DATA LV_FILENAME      TYPE STRING.
-    DATA LT_X             TYPE MTTY_X.
-    DATA LV_SIZE          TYPE I.
-    DATA LV_TABIX         TYPE SY-TABIX.
+    DATA lv_donem_txt(30).
+    DATA lv_value(100).
+    DATA lv_beyanv        TYPE ztax_t_beyv-beyanv.
+    DATA lv_dyolu         TYPE ztax_t_beydy-dyolu.
+    DATA ls_beyg          TYPE lty_beyg.
+    DATA lv_monat         TYPE monat.
+    DATA lv_xml_string    TYPE string.
+    DATA lv_xml           TYPE string.
+    DATA lv_char_amount1  TYPE string.
+    DATA lv_char_amount2  TYPE string.
+    DATA lv_char_amount3  TYPE string.
+    DATA lt_kiril1        TYPE TABLE OF mty_collect.
+    DATA lt_kiril2        TYPE TABLE OF mty_collect.
+    DATA lt_kiril3        TYPE TABLE OF mty_collect.
+    DATA ls_kiril1        TYPE mty_collect.
+    DATA ls_kiril2        TYPE mty_collect.
+    DATA ls_kiril3        TYPE mty_collect.
+    DATA lv_kodver        TYPE string.
+    DATA lv_nonamespace   TYPE string.
+    DATA lv_xmlstring     TYPE string.
+    DATA lv_vdkod         TYPE string.
+    DATA lv_tip           TYPE string.
+    DATA lv_yil           TYPE string.
+    DATA lv_ay            TYPE string.
+    DATA lv_mvergino      TYPE string.
+    DATA lv_mtckimlikno   TYPE string.
+    DATA lv_msoyadi       TYPE string.
+    DATA lv_madi          TYPE string.
+    DATA lv_meposta       TYPE string.
+    DATA lv_malankodu     TYPE string.
+    DATA lv_mtelno        TYPE string.
+    DATA lv_hsv           TYPE string.
+    DATA lv_hsvsoyadi     TYPE string.
+    DATA lv_hsvadi        TYPE string.
+    DATA lv_hsvvergino    TYPE string.
+    DATA lv_hsvtckimlikno TYPE string.
+    DATA lv_hsveposta     TYPE string.
+    DATA lv_hsvalankodu   TYPE string.
+    DATA lv_hsvtelno      TYPE string.
+    DATA lv_dvergino      TYPE string.
+    DATA lv_dtckimlikno   TYPE string.
+    DATA lv_dsoyadi       TYPE string.
+    DATA lv_dadi          TYPE string.
+    DATA lv_deposta       TYPE string.
+    DATA lv_dalankodu     TYPE string.
+    DATA lv_dtelno        TYPE string.
+    DATA lv_filename      TYPE string.
+    DATA lt_x             TYPE mtty_x.
+    DATA lv_size          TYPE i.
+    DATA lv_tabix         TYPE sy-tabix.
 *    DATA LT_HSV_VAL       TYPE MTTY_DD07V.
 *    DATA LS_HSV_VAL       TYPE DD07V.
-    DATA LS_KESINTI       TYPE ZTAX_DDL_I_VAT2_KES_REPORT.
+    DATA ls_kesinti       TYPE ztax_ddl_i_vat2_kes_report.
 
 
-    FIELD-SYMBOLS <FS>       TYPE ANY.
-    FIELD-SYMBOLS <FS_VALUE> TYPE ANY.
+    FIELD-SYMBOLS <fs>       TYPE any.
+    FIELD-SYMBOLS <fs_value> TYPE any.
 
 **********************************************************************
-    DATA: LO_VAT2_REPORT TYPE REF TO ZCL_TAX_VAT2_KES_REPORT.
-    CREATE OBJECT LO_VAT2_REPORT.
+    DATA: lo_vat2_report TYPE REF TO zcl_tax_vat2_kes_report.
+    CREATE OBJECT lo_vat2_report.
 
     DATA(lt_keys) = keys.
 
@@ -329,14 +329,14 @@ CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT IMPLEMENTATION.
 
 
 
-      CALL METHOD LO_VAT2_REPORT->GET_DATA
+      CALL METHOD lo_vat2_report->get_data
         EXPORTING
-          IV_BUKRS  = P_BUKRS
-          IV_GJAHR  = P_GJAHR
-          IV_MONAT  = P_MONAT
-          IV_DONEMB = 01
+          iv_bukrs  = p_bukrs
+          iv_gjahr  = p_gjahr
+          iv_monat  = p_monat
+          iv_donemb = 01
         IMPORTING
-          ET_RESULT = MT_KESINTI.
+          et_result = mt_kesinti.
 
     ENDIF.
 
@@ -346,155 +346,155 @@ CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT IMPLEMENTATION.
 **********************************************************************
 
 
-    READ TABLE MR_MONAT ASSIGNING <FS> INDEX 1.
-    IF <FS> IS ASSIGNED.
-      ASSIGN COMPONENT 'LOW' OF STRUCTURE <FS> TO <FS_VALUE>.
-      IF <FS_VALUE> IS ASSIGNED.
-        LV_MONAT = <FS_VALUE>.
-        UNASSIGN <FS_VALUE>.
+    READ TABLE mr_monat ASSIGNING <fs> INDEX 1.
+    IF <fs> IS ASSIGNED.
+      ASSIGN COMPONENT 'LOW' OF STRUCTURE <fs> TO <fs_value>.
+      IF <fs_value> IS ASSIGNED.
+        lv_monat = <fs_value>.
+        UNASSIGN <fs_value>.
       ENDIF.
-      UNASSIGN <FS>.
+      UNASSIGN <fs>.
     ENDIF.
 
 *    ME->DOMA_GET_VALUE( EXPORTING IV_DOMAIN_NAME = '/ITETR/TAX_HSV'
 *                        IMPORTING ET_DOM_VALUE   = LT_HSV_VAL ).
 
-    CLEAR LT_XML_DATA.
-    CLEAR LS_XML_DATA.
+    CLEAR lt_xml_data.
+    CLEAR ls_xml_data.
 
-    LOOP AT MT_KESINTI INTO LS_KESINTI.
+    LOOP AT mt_kesinti INTO ls_kesinti.
 
-      CLEAR LS_XML_DATA.
-      LS_XML_DATA-LIFNR   = LS_KESINTI-LIFNR.
-      LS_XML_DATA-NAME1   = LS_KESINTI-NAME1.
-      LS_XML_DATA-NAME2   = LS_KESINTI-NAME2.
-      LS_XML_DATA-TCKN    = LS_KESINTI-TCKN.
-      LS_XML_DATA-VKN     = LS_KESINTI-VKN.
-      LS_XML_DATA-MATRAH  = LS_KESINTI-MATRAH.
-      LS_XML_DATA-TEVKT   = LS_KESINTI-TEVKT.
-      LS_XML_DATA-ODMTR   = LS_KESINTI-ODMTR.
-      COLLECT LS_XML_DATA INTO LT_XML_DATA.
-      CLEAR LS_XML_DATA.
+      CLEAR ls_xml_data.
+      ls_xml_data-lifnr   = ls_kesinti-lifnr.
+      ls_xml_data-name1   = ls_kesinti-name1.
+      ls_xml_data-name2   = ls_kesinti-name2.
+      ls_xml_data-tckn    = ls_kesinti-tckn.
+      ls_xml_data-vkn     = ls_kesinti-vkn.
+      ls_xml_data-matrah  = ls_kesinti-matrah.
+      ls_xml_data-tevkt   = ls_kesinti-tevkt.
+      ls_xml_data-odmtr   = ls_kesinti-odmtr.
+      COLLECT ls_xml_data INTO lt_xml_data.
+      CLEAR ls_xml_data.
 
     ENDLOOP.
 
 
 *    CASE P_DONEMB.
 *      WHEN '01'.
-    LV_DONEM_TXT = 'Aylık'.
+    lv_donem_txt = 'Aylık'.
 *      WHEN '02'.
 *        lv_donem_txt = TEXT-d02.
 *    ENDCASE.
 
     SELECT SINGLE
-           BUKRS,
-           VDKOD,
-           MVKNO,
-           MTCKN,
-           MSOYAD,
-           MAD,
-           MEMAIL,
-           MALKOD,
-           MTELNO,
-           HSVVKN,
-           HSV,
-           HSVTCKN,
-           HSVEMAIL,
-           HSVAKOD,
-           HSVTELNO,
-           DVKNO,
-           DTCKN,
-           DSOYAD,
-           DAD,
-           DEMAIL,
-           DALKOD,
-           DTELNO
-           FROM ZTAX_T_BEYG
-           WHERE BUKRS EQ @P_BUKRS
-            INTO @LS_BEYG.
+           bukrs,
+           vdkod,
+           mvkno,
+           mtckn,
+           msoyad,
+           mad,
+           memail,
+           malkod,
+           mtelno,
+           hsvvkn,
+           hsv,
+           hsvtckn,
+           hsvemail,
+           hsvakod,
+           hsvtelno,
+           dvkno,
+           dtckn,
+           dsoyad,
+           dad,
+           demail,
+           dalkod,
+           dtelno
+           FROM ztax_t_beyg
+           WHERE bukrs EQ @p_bukrs
+            INTO @ls_beyg.
 
-    SELECT SINGLE BEYANV
+    SELECT SINGLE beyanv
 
-           FROM ZTAX_T_BEYV
-           WHERE BEYANT EQ '02'
-           INTO @LV_BEYANV.
+           FROM ztax_t_beyv
+           WHERE beyant EQ '02'
+           INTO @lv_beyanv.
 
-    SELECT SINGLE DYOLU
+    SELECT SINGLE dyolu
 
-           FROM ZTAX_T_BEYDY
-           WHERE BUKRS EQ @P_BUKRS
-             AND BEYANT EQ '02'
-             INTO @LV_DYOLU.
+           FROM ztax_t_beydy
+           WHERE bukrs EQ @p_bukrs
+             AND beyant EQ '02'
+             INTO @lv_dyolu.
 
     CONCATENATE 'kodVer="'
-                 LV_BEYANV
+                 lv_beyanv
                  '"'
-                 INTO LV_KODVER.
+                 INTO lv_kodver.
 
     CONCATENATE 'xsi:noNamespaceSchemaLocation="'
-                 LV_BEYANV
+                 lv_beyanv
                  '.xsd"'
-                 INTO LV_NONAMESPACE.
+                 INTO lv_nonamespace.
 
     CONCATENATE '<vdKodu>'
-                LS_BEYG-VDKOD
+                ls_beyg-vdkod
                 '</vdKodu>'
-                INTO LV_VDKOD.
+                INTO lv_vdkod.
 
     CONCATENATE '<tip>'
-                LV_DONEM_TXT
+                lv_donem_txt
                 '</tip>'
-                INTO LV_TIP.
+                INTO lv_tip.
 
     CONCATENATE '<yil>'
-                P_GJAHR
+                p_gjahr
                 '</yil>'
-                INTO LV_YIL.
+                INTO lv_yil.
 
     CONCATENATE '<ay>'
-                LV_MONAT
+                lv_monat
                 '</ay>'
-                INTO LV_AY.
+                INTO lv_ay.
 
     CONCATENATE '<vergiNo>'
-                 LS_BEYG-MVKNO
+                 ls_beyg-mvkno
                  '</vergiNo>'
-                INTO LV_MVERGINO.
+                INTO lv_mvergino.
 
     CONCATENATE '<tcKimlikNo>'
-                LS_BEYG-MTCKN
+                ls_beyg-mtckn
                 '</tcKimlikNo>'
-                INTO LV_MTCKIMLIKNO.
+                INTO lv_mtckimlikno.
 
     CONCATENATE '<soyadi>'
-                LS_BEYG-MSOYAD
+                ls_beyg-msoyad
                 '</soyadi>'
-                INTO LV_MSOYADI.
+                INTO lv_msoyadi.
 
     CONCATENATE '<adi>'
-                LS_BEYG-MAD
+                ls_beyg-mad
                 '</adi>'
-                INTO LV_MADI.
+                INTO lv_madi.
 
     CONCATENATE '<eposta>'
-                LS_BEYG-MEMAIL
+                ls_beyg-memail
                 '</eposta>'
-                INTO LV_MEPOSTA.
+                INTO lv_meposta.
 
     CONCATENATE '<alanKodu>'
-                LS_BEYG-MALKOD
+                ls_beyg-malkod
                 '</alanKodu>'
-                INTO LV_MALANKODU.
+                INTO lv_malankodu.
 
     CONCATENATE '<telNo>'
-                LS_BEYG-MTELNO
+                ls_beyg-mtelno
                 '</telNo>'
-                 INTO LV_MTELNO.
+                 INTO lv_mtelno.
 
     SELECT SINGLE *
-    FROM ZTAX_DDL_VH_HSV
-   WHERE HSV = @LS_BEYG-HSV
-   INTO @DATA(LS_VH_HSV).
+    FROM ztax_ddl_vh_hsv
+   WHERE hsv = @ls_beyg-hsv
+   INTO @DATA(ls_vh_hsv).
 *    CLEAR LS_HSV_VAL.
 *    READ TABLE LT_HSV_VAL INTO LS_HSV_VAL WITH KEY DOMVALUE_L = LS_BEYG-HSV.
 *
@@ -504,208 +504,208 @@ CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT IMPLEMENTATION.
 *                INTO LV_HSV.
 
     CONCATENATE '<hsv sifat="'
-               LS_VH_HSV-DESCRIPTION
+               ls_vh_hsv-description
                 '">'
-                INTO LV_HSV.
+                INTO lv_hsv.
 
 
     CONCATENATE '<soyadi>'
                 'SOYAD'
                 '</soyadi>'
-                INTO LV_HSVSOYADI.
+                INTO lv_hsvsoyadi.
 
     CONCATENATE '<adi>'
                 'AD'
                 '</adi>'
-                INTO LV_HSVADI.
+                INTO lv_hsvadi.
 
     CONCATENATE '<vergiNo>'
-                 LS_BEYG-HSVVKN
+                 ls_beyg-hsvvkn
                 '</vergiNo>'
-                INTO LV_HSVVERGINO.
+                INTO lv_hsvvergino.
 
     CONCATENATE '<tcKimlikNo>'
-                LS_BEYG-HSVTCKN
+                ls_beyg-hsvtckn
                 '</tcKimlikNo>'
-                INTO LV_HSVTCKIMLIKNO.
+                INTO lv_hsvtckimlikno.
 
     CONCATENATE '<eposta>'
-                LS_BEYG-HSVEMAIL
+                ls_beyg-hsvemail
                 '</eposta>'
-                INTO LV_HSVEPOSTA.
+                INTO lv_hsveposta.
 
     CONCATENATE '<alanKodu>'
-                LS_BEYG-HSVAKOD
+                ls_beyg-hsvakod
                 '</alanKodu>'
-                INTO LV_HSVALANKODU.
+                INTO lv_hsvalankodu.
 
     CONCATENATE '<telNo>'
-                LS_BEYG-HSVTELNO
+                ls_beyg-hsvtelno
                 '</telNo>'
-          INTO LV_HSVTELNO.
+          INTO lv_hsvtelno.
 
     CONCATENATE '<vergiNo>'
-                LS_BEYG-DVKNO
+                ls_beyg-dvkno
                 '</vergiNo>'
-                INTO LV_DVERGINO.
+                INTO lv_dvergino.
 
     CONCATENATE '<tcKimlikNo>'
-                LS_BEYG-DTCKN
+                ls_beyg-dtckn
                 '</tcKimlikNo>'
-                INTO LV_DTCKIMLIKNO.
+                INTO lv_dtckimlikno.
 
     CONCATENATE '<soyadi>'
-                LS_BEYG-DSOYAD
+                ls_beyg-dsoyad
                 '</soyadi>'
-                INTO LV_DSOYADI.
+                INTO lv_dsoyadi.
 
     CONCATENATE '<adi>'
-                LS_BEYG-DAD
+                ls_beyg-dad
                 '</adi>'
-                INTO LV_DADI.
+                INTO lv_dadi.
 
     CONCATENATE '<eposta>'
-                LS_BEYG-DEMAIL
+                ls_beyg-demail
                 '</eposta>'
-                INTO LV_DEPOSTA.
+                INTO lv_deposta.
 
     CONCATENATE '<alanKodu>'
-                LS_BEYG-DALKOD
+                ls_beyg-dalkod
                 '</alanKodu>'
-                INTO LV_DALANKODU.
+                INTO lv_dalankodu.
 
     CONCATENATE '<telNo>'
-                LS_BEYG-DTELNO
+                ls_beyg-dtelno
                 '</telNo>'
-                INTO LV_DTELNO.
+                INTO lv_dtelno.
 
     CONCATENATE '<?xml version="1.0" encoding="ISO-8859-9"?>'
                 '<beyanname'
-                LV_KODVER
+                lv_kodver
                 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
-                LV_NONAMESPACE
+                lv_nonamespace
                 '>'
                 '<genel>'
                 '<idari>'
-                LV_VDKOD
+                lv_vdkod
                 '<donem>'
-                LV_TIP
-                LV_YIL
-                LV_AY
+                lv_tip
+                lv_yil
+                lv_ay
                 '</donem>'
                 '</idari>'
                 '<mukellef>'
-                LV_MVERGINO
-                LV_MTCKIMLIKNO
-                LV_MSOYADI
-                LV_MADI
-                LV_MEPOSTA
-                LV_MALANKODU
-                LV_MTELNO
+                lv_mvergino
+                lv_mtckimlikno
+                lv_msoyadi
+                lv_madi
+                lv_meposta
+                lv_malankodu
+                lv_mtelno
                 '</mukellef>'
-                LV_HSV
-                LV_HSVSOYADI
-                LV_HSVADI
-                LV_HSVVERGINO
-                LV_HSVTCKIMLIKNO
-                LV_HSVEPOSTA
-                LV_HSVALANKODU
-                LV_HSVTELNO
+                lv_hsv
+                lv_hsvsoyadi
+                lv_hsvadi
+                lv_hsvvergino
+                lv_hsvtckimlikno
+                lv_hsveposta
+                lv_hsvalankodu
+                lv_hsvtelno
                 '</hsv>'
                 '<duzenleyen>'
-                LV_DVERGINO
-                LV_DTCKIMLIKNO
-                LV_DSOYADI
-                LV_DADI
-                LV_DEPOSTA
-                LV_DALANKODU
-                LV_DTELNO
+                lv_dvergino
+                lv_dtckimlikno
+                lv_dsoyadi
+                lv_dadi
+                lv_deposta
+                lv_dalankodu
+                lv_dtelno
                 '</duzenleyen>'
                 '</genel>'
                 '<ozel>'
-                INTO LV_XML_STRING
-                SEPARATED BY SPACE.
+                INTO lv_xml_string
+                SEPARATED BY space.
 
-    CONCATENATE LV_XML_STRING
+    CONCATENATE lv_xml_string
                 '<kesintiler>'
-                INTO LV_XML_STRING
-                SEPARATED BY SPACE.
+                INTO lv_xml_string
+                SEPARATED BY space.
 
-    LOOP AT LT_XML_DATA INTO LS_XML_DATA.
+    LOOP AT lt_xml_data INTO ls_xml_data.
 
-      CONCATENATE LV_XML_STRING
+      CONCATENATE lv_xml_string
                   '<kesinti>'
                   '<soyadi>'
-                  LS_XML_DATA-NAME2
+                  ls_xml_data-name2
                   '</soyadi>'
                   '<adi>'
-                  LS_XML_DATA-NAME1
+                  ls_xml_data-name1
                   '</adi>'
-                  INTO LV_XML_STRING
-                  SEPARATED BY SPACE.
+                  INTO lv_xml_string
+                  SEPARATED BY space.
 
 
-      CLEAR LV_CHAR_AMOUNT1.
-      CLEAR LV_CHAR_AMOUNT2.
-      LV_CHAR_AMOUNT1 = LS_XML_DATA-MATRAH.
-      LV_CHAR_AMOUNT2 = LS_XML_DATA-TEVKT.
-      SHIFT LV_CHAR_AMOUNT1 LEFT DELETING LEADING SPACE.
-      SHIFT LV_CHAR_AMOUNT2 LEFT DELETING LEADING SPACE.
+      CLEAR lv_char_amount1.
+      CLEAR lv_char_amount2.
+      lv_char_amount1 = ls_xml_data-matrah.
+      lv_char_amount2 = ls_xml_data-tevkt.
+      SHIFT lv_char_amount1 LEFT DELETING LEADING space.
+      SHIFT lv_char_amount2 LEFT DELETING LEADING space.
 
-      IF LS_XML_DATA-TCKN NE SPACE.
-        CONCATENATE LV_XML_STRING
+      IF ls_xml_data-tckn NE space.
+        CONCATENATE lv_xml_string
                     '<tcKimlikNo>'
-                    LS_XML_DATA-TCKN
+                    ls_xml_data-tckn
                     '</tcKimlikNo>'
-                    INTO LV_XML_STRING
-                    SEPARATED BY SPACE.
+                    INTO lv_xml_string
+                    SEPARATED BY space.
 
       ELSE.
-        CONCATENATE LV_XML_STRING
+        CONCATENATE lv_xml_string
                     '<vergiNo>'
-                    LS_XML_DATA-VKN
+                    ls_xml_data-vkn
                     '</vergiNo>'
-                    INTO LV_XML_STRING
-                    SEPARATED BY SPACE.
+                    INTO lv_xml_string
+                    SEPARATED BY space.
       ENDIF.
 
-      CONCATENATE LV_XML_STRING
+      CONCATENATE lv_xml_string
                   '<vergiyeTabiMatrah>'
-                  LV_CHAR_AMOUNT1
+                  lv_char_amount1
                   '</vergiyeTabiMatrah>'
                   '<tutar>'
-                  LV_CHAR_AMOUNT2
+                  lv_char_amount2
                   '</tutar>'
                   '<odemeTuru>'
-                  LS_XML_DATA-ODMTR
+                  ls_xml_data-odmtr
                   '</odemeTuru>'
                   '</kesinti>'
-                  INTO LV_XML_STRING
-                  SEPARATED BY SPACE.
+                  INTO lv_xml_string
+                  SEPARATED BY space.
 
     ENDLOOP.
 
-    CONCATENATE LV_XML_STRING
+    CONCATENATE lv_xml_string
                 '</kesintiler>'
-                INTO LV_XML_STRING
-                SEPARATED BY SPACE.
+                INTO lv_xml_string
+                SEPARATED BY space.
 
-    CONCATENATE LV_XML_STRING
+    CONCATENATE lv_xml_string
                 '</ozel>'
-                INTO LV_XML_STRING
-                SEPARATED BY SPACE.
+                INTO lv_xml_string
+                SEPARATED BY space.
 
-    CONCATENATE LV_XML_STRING
+    CONCATENATE lv_xml_string
                 '</beyanname>'
-                INTO LV_XML_STRING
-                SEPARATED BY SPACE.
+                INTO lv_xml_string
+                SEPARATED BY space.
 
-    CLEAR LV_FILENAME.
-    CONCATENATE LV_DYOLU
-                LV_BEYANV
+    CLEAR lv_filename.
+    CONCATENATE lv_dyolu
+                lv_beyanv
                 '_kesinti'
                 '.xml'
-                INTO LV_FILENAME.
+                INTO lv_filename.
 
 
 
@@ -744,36 +744,36 @@ CLASS LHC_ZTAX_DDL_I_VAT2_KES_REPORT IMPLEMENTATION.
 
 ENDCLASS.
 
-CLASS LSC_ZTAX_DDL_I_VAT2_KES_REPORT DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_SAVER.
+CLASS lsc_ztax_ddl_i_vat2_kes_report DEFINITION INHERITING FROM cl_abap_behavior_saver.
   PROTECTED SECTION.
 
-    METHODS FINALIZE REDEFINITION.
+    METHODS finalize REDEFINITION.
 
-    METHODS CHECK_BEFORE_SAVE REDEFINITION.
+    METHODS check_before_save REDEFINITION.
 
-    METHODS SAVE REDEFINITION.
+    METHODS save REDEFINITION.
 
-    METHODS CLEANUP REDEFINITION.
+    METHODS cleanup REDEFINITION.
 
-    METHODS CLEANUP_FINALIZE REDEFINITION.
+    METHODS cleanup_finalize REDEFINITION.
 
 ENDCLASS.
 
-CLASS LSC_ZTAX_DDL_I_VAT2_KES_REPORT IMPLEMENTATION.
+CLASS lsc_ztax_ddl_i_vat2_kes_report IMPLEMENTATION.
 
-  METHOD FINALIZE.
+  METHOD finalize.
   ENDMETHOD.
 
-  METHOD CHECK_BEFORE_SAVE.
+  METHOD check_before_save.
   ENDMETHOD.
 
-  METHOD SAVE.
+  METHOD save.
   ENDMETHOD.
 
-  METHOD CLEANUP.
+  METHOD cleanup.
   ENDMETHOD.
 
-  METHOD CLEANUP_FINALIZE.
+  METHOD cleanup_finalize.
   ENDMETHOD.
 
 ENDCLASS.

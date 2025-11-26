@@ -670,8 +670,7 @@ CLASS lhc_ztax_ddl_i_vat2_beyan_repo IMPLEMENTATION.
                     '<vergiyeTabiMatrah>' lv_char_matrah '</vergiyeTabiMatrah>'
                     '<tutar>' lv_char_tevkifat '</tutar>'
                     '<odemeTuru>' ls_lifnr_sum_kesinti-odmtr '</odemeTuru>'
-                    INTO lv_xml_string
-                    SEPARATED BY space.
+                    INTO lv_xml_string.
 
         CONCATENATE lv_xml_string
                     '</kesinti>'
