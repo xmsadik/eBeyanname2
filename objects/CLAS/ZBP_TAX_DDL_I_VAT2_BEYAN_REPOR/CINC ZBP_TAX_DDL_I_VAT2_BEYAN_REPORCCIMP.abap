@@ -520,8 +520,8 @@ CLASS lhc_ztax_ddl_i_vat2_beyan_repo IMPLEMENTATION.
                         '<islemTuru>'
                         ls_kiril3-kiril2
                         '</islemTuru>'
-                        INTO lv_xml_string
-                        SEPARATED BY space.
+                        INTO lv_xml_string.
+*                        SEPARATED BY space.
 
             CLEAR lv_char_amount1.
             CLEAR lv_char_amount2.
@@ -540,32 +540,32 @@ CLASS lhc_ztax_ddl_i_vat2_beyan_repo IMPLEMENTATION.
                         '<matrah>'
                         lv_char_amount1
                         '</matrah>'
-                        INTO lv_xml_string
-                        SEPARATED BY space.
+                        INTO lv_xml_string.
+*                        SEPARATED BY space.
 
             CONDENSE ls_kiril3-oran.
             CONCATENATE lv_xml_string
                         '<oran>'
                          ls_kiril3-oran
                          '</oran>'
-                         INTO lv_xml_string
-                         SEPARATED BY space.
+                         INTO lv_xml_string.
+*                         SEPARATED BY space.
 
             CONDENSE ls_kiril3-tevkifato.
             CONCATENATE lv_xml_string
                         '<tevkifatOrani>'
                         ls_kiril3-tevkifato
                         '</tevkifatOrani>'
-                        INTO lv_xml_string
-                        SEPARATED BY space.
+                        INTO lv_xml_string.
+*                        SEPARATED BY space.
 
             CONDENSE  lv_char_amount3.
             CONCATENATE lv_xml_string
                         '<vergi>'
                         lv_char_amount3
                         '</vergi>'
-                        INTO lv_xml_string
-                        SEPARATED BY space.
+                        INTO lv_xml_string.
+*                        SEPARATED BY space.
 
             CASE ls_kiril3-kiril1.
               WHEN '001'.

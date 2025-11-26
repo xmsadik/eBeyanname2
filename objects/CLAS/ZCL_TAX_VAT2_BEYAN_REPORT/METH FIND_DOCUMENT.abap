@@ -193,10 +193,10 @@
                           AND taxratio~Country = t001~Country
                           AND taxratio~cndnrecordvalidityenddate = '99991231'
 
-          FOR ALL ENTRIES IN @et_bkpf
-          WHERE bset~companycode        = @et_bkpf-bukrs
-            AND bset~Accountingdocument = @et_bkpf-belnr
-            AND bset~fiscalyear         = @et_bkpf-gjahr
+          INNER JOIN @et_bkpf AS bkpf
+          ON bset~companycode        = bkpf~bukrs
+            AND bset~Accountingdocument = bkpf~belnr
+            AND bset~fiscalyear         = bkpf~gjahr
         INTO TABLE @et_bset.
       ENDIF.
     ENDIF.
@@ -220,10 +220,10 @@
                     TaxCode AS mwskz,
                Reference3IDByBusinessPartner AS xref3
                     FROM i_operationalacctgdocitem AS bseg
-                    FOR ALL ENTRIES IN @et_bset
-                    WHERE bseg~CompanyCode EQ @et_bset-bukrs
-                      AND bseg~AccountingDocument EQ @et_bset-belnr
-                      AND bseg~fiscalyear EQ @et_bset-gjahr
+                    INNER JOIN @et_bset AS bset
+                    ON bseg~CompanyCode EQ bset~bukrs
+                      AND bseg~AccountingDocument EQ bset~belnr
+                      AND bseg~fiscalyear EQ bset~gjahr
                        INTO TABLE @et_bseg.
 
 
@@ -246,10 +246,11 @@
                      TaxCode AS mwskz,
                Reference3IDByBusinessPartner AS xref3
                      FROM i_operationalacctgdocitem AS bseg
-                     FOR ALL ENTRIES IN @et_bkpf
-                     WHERE bseg~CompanyCode EQ @et_bkpf-bukrs
-                       AND bseg~AccountingDocument EQ @et_bkpf-belnr
-                       AND bseg~fiscalyear EQ @et_bkpf-gjahr
+*
+                     INNER JOIN @et_bkpf AS bkpf
+                     ON bseg~CompanyCode EQ bkpf~bukrs
+                       AND bseg~AccountingDocument EQ bkpf~belnr
+                       AND bseg~fiscalyear EQ bkpf~gjahr
                         INTO TABLE @et_bseg.
 
       ENDIF.
