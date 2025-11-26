@@ -183,7 +183,7 @@
          AND j~FiscalPeriod = @p_monat
          AND j~isreversal = ''
          AND j~isreversed = ''
-        and ( j~financialaccounttype = 'S' or j~financialaccounttype = 'A' )
+        AND ( j~financialaccounttype = 'S' OR j~financialaccounttype = 'A' )
          AND j~taxcode <> ''
          GROUP BY j~taxcode, r~ConditionRateRatio,r~vatconditiontype
       ORDER BY j~taxcode
