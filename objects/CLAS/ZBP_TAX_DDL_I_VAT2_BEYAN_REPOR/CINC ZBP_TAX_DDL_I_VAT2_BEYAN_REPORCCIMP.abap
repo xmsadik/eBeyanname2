@@ -612,15 +612,18 @@ CLASS lhc_ztax_ddl_i_vat2_beyan_repo IMPLEMENTATION.
 *
         p_bukrs = ls_keys-bukrs.
         p_gjahr = ls_keys-gjahr.
+        p_monat = ls_keys-monat.
 *
       ENDIF.
 
-      CALL METHOD lo_vat2_kesinti->kesinti
+      CALL METHOD lo_vat2_kesinti->get_data
         EXPORTING
-          iv_bukrs   = p_bukrs
-          iv_gjahr   = p_gjahr
+          iv_bukrs  = p_bukrs
+          iv_gjahr  = p_gjahr
+          iv_monat  = p_monat
+          iv_donemb = 1
         IMPORTING
-          et_kesinti = mt_kesinti.
+          et_result = mt_kesinti.
 
 
       DATA(ls_lifnr_sum_kesinti) = VALUE ty_kesinti_lifnr_sum( ).

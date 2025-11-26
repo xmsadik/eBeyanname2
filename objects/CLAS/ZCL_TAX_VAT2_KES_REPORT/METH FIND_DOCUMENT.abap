@@ -43,91 +43,93 @@
            WHERE i_journalentry~companycode EQ @p_bukrs
              AND i_journalentry~fiscalyear EQ @p_gjahr
              AND i_journalentry~fiscalperiod IN @mr_monat
+             AND i_journalentry~IsReversed = @space
+             AND i_journalentry~IsReversal = @space
               INTO TABLE @et_bkpf.
     IF sy-subrc IS NOT INITIAL.
       RETURN.
     ENDIF.
 
-    LOOP AT et_bkpf ASSIGNING <fs_bkpf> WHERE awtyp EQ 'RMRP'.
-      CASE strlen( <fs_bkpf>-aworg_rev ).
-        WHEN 4.
-          <fs_bkpf>-gjahr_rev = <fs_bkpf>-aworg_rev.
-      ENDCASE.
-    ENDLOOP.
-
-    "elemination logic. - 1
-    INSERT LINES OF et_bkpf INTO TABLE lt_bkpf_rmrp.
-    DELETE lt_bkpf_rmrp WHERE awtyp     NE 'RMRP' OR
-                              awref_rev EQ space.
-
-    IF lines( lt_bkpf_rmrp ) GT 0.
-      SELECT i_supplierinvoiceapi01~supplierinvoice AS  belnr,
-             i_supplierinvoiceapi01~fiscalyear AS gjahr,
-             i_supplierinvoiceapi01~postingdate AS budat
-
-             FROM i_supplierinvoiceapi01
-             FOR ALL ENTRIES IN @lt_bkpf_rmrp
-             WHERE i_supplierinvoiceapi01~supplierinvoice EQ @lt_bkpf_rmrp-awref_rev
-               AND i_supplierinvoiceapi01~fiscalyear EQ @lt_bkpf_rmrp-gjahr_rev
-                INTO TABLE @lt_rbkp.
-
-      LOOP AT lt_rbkp INTO ls_rbkp.
-        DELETE et_bkpf WHERE awref_rev  EQ ls_rbkp-belnr
-                         AND gjahr_rev  EQ ls_rbkp-gjahr
-                         AND budat+4(2) EQ ls_rbkp-budat+4(2).
-      ENDLOOP.
-    ENDIF.
-
-    CLEAR lt_bkpf_rmrp.
-    CLEAR lt_rbkp.
-
-    "elemination logic - 2
-    INSERT LINES OF et_bkpf INTO TABLE lt_bkpf_vbrk.
-    DELETE lt_bkpf_vbrk WHERE awtyp     NE 'VBRK' OR
-                              awref_rev EQ space.
-
-    IF lines( lt_bkpf_vbrk ) GT 0.
-      SELECT i_salesdocument~salesdocument AS vbeln,
-             i_salesdocument~salesdocumentdate AS fkdat
-             FROM i_salesdocument
-             FOR ALL ENTRIES IN @lt_bkpf_vbrk
-             WHERE salesdocument EQ @lt_bkpf_vbrk-awref_rev
-              INTO TABLE @lt_vbrk.
-
-      LOOP AT lt_vbrk INTO ls_vbrk.
-        DELETE et_bkpf WHERE awref_rev  EQ ls_vbrk-vbeln
-                         AND budat+4(2) EQ ls_vbrk-fkdat+4(2).
-      ENDLOOP.
-    ENDIF.
-
-    CLEAR lt_vbrk.
-    CLEAR lt_bkpf_vbrk.
-
-    "elemination logic - 3
-    INSERT LINES OF et_bkpf INTO TABLE lt_bkpf_rev.
-    DELETE lt_bkpf_rev WHERE ( awtyp     EQ 'VBRK' OR
-                               awtyp     EQ 'RMRP' ) AND ( stblg EQ space ).
-
-    IF lines( lt_bkpf_rev ) GT 0.
-      SELECT  companycode AS bukrs,
-             accountingdocument AS belnr,
-             fiscalyear AS gjahr,
-            postingdate AS budat
-
-             FROM i_journalentry
-             FOR ALL ENTRIES IN @lt_bkpf_rev
-             WHERE companycode EQ @lt_bkpf_rev-bukrs
-               AND accountingdocument EQ @lt_bkpf_rev-stblg
-               AND fiscalyear EQ @lt_bkpf_rev-stjah
-               INTO TABLE @lt_bkpf_rev_cont.
-
-      LOOP AT lt_bkpf_rev_cont INTO ls_bkpf_rev_cont.
-        DELETE et_bkpf WHERE bukrs      EQ ls_bkpf_rev_cont-bukrs
-                         AND stblg      EQ ls_bkpf_rev_cont-belnr
-                         AND stjah      EQ ls_bkpf_rev_cont-gjahr
-                         AND budat+4(2) EQ ls_bkpf_rev_cont-budat+4(2).
-      ENDLOOP.
-    ENDIF.
+*    LOOP AT et_bkpf ASSIGNING <fs_bkpf> WHERE awtyp EQ 'RMRP'.
+*      CASE strlen( <fs_bkpf>-aworg_rev ).
+*        WHEN 4.
+*          <fs_bkpf>-gjahr_rev = <fs_bkpf>-aworg_rev.
+*      ENDCASE.
+*    ENDLOOP.
+*
+*    "elemination logic. - 1
+*    INSERT LINES OF et_bkpf INTO TABLE lt_bkpf_rmrp.
+*    DELETE lt_bkpf_rmrp WHERE awtyp     NE 'RMRP' OR
+*                              awref_rev EQ space.
+*
+*    IF lines( lt_bkpf_rmrp ) GT 0.
+*      SELECT i_supplierinvoiceapi01~supplierinvoice AS  belnr,
+*             i_supplierinvoiceapi01~fiscalyear AS gjahr,
+*             i_supplierinvoiceapi01~postingdate AS budat
+*
+*             FROM i_supplierinvoiceapi01
+*             FOR ALL ENTRIES IN @lt_bkpf_rmrp
+*             WHERE i_supplierinvoiceapi01~supplierinvoice EQ @lt_bkpf_rmrp-awref_rev
+*               AND i_supplierinvoiceapi01~fiscalyear EQ @lt_bkpf_rmrp-gjahr_rev
+*                INTO TABLE @lt_rbkp.
+*
+*      LOOP AT lt_rbkp INTO ls_rbkp.
+*        DELETE et_bkpf WHERE awref_rev  EQ ls_rbkp-belnr
+*                         AND gjahr_rev  EQ ls_rbkp-gjahr
+*                         AND budat+4(2) EQ ls_rbkp-budat+4(2).
+*      ENDLOOP.
+*    ENDIF.
+*
+*    CLEAR lt_bkpf_rmrp.
+*    CLEAR lt_rbkp.
+*
+*    "elemination logic - 2
+*    INSERT LINES OF et_bkpf INTO TABLE lt_bkpf_vbrk.
+*    DELETE lt_bkpf_vbrk WHERE awtyp     NE 'VBRK' OR
+*                              awref_rev EQ space.
+*
+*    IF lines( lt_bkpf_vbrk ) GT 0.
+*      SELECT i_salesdocument~salesdocument AS vbeln,
+*             i_salesdocument~salesdocumentdate AS fkdat
+*             FROM i_salesdocument
+*             FOR ALL ENTRIES IN @lt_bkpf_vbrk
+*             WHERE salesdocument EQ @lt_bkpf_vbrk-awref_rev
+*              INTO TABLE @lt_vbrk.
+*
+*      LOOP AT lt_vbrk INTO ls_vbrk.
+*        DELETE et_bkpf WHERE awref_rev  EQ ls_vbrk-vbeln
+*                         AND budat+4(2) EQ ls_vbrk-fkdat+4(2).
+*      ENDLOOP.
+*    ENDIF.
+*
+*    CLEAR lt_vbrk.
+*    CLEAR lt_bkpf_vbrk.
+*
+*    "elemination logic - 3
+*    INSERT LINES OF et_bkpf INTO TABLE lt_bkpf_rev.
+*    DELETE lt_bkpf_rev WHERE ( awtyp     EQ 'VBRK' OR
+*                               awtyp     EQ 'RMRP' ) AND ( stblg EQ space ).
+*
+*    IF lines( lt_bkpf_rev ) GT 0.
+*      SELECT  companycode AS bukrs,
+*             accountingdocument AS belnr,
+*             fiscalyear AS gjahr,
+*            postingdate AS budat
+*
+*             FROM i_journalentry
+*             FOR ALL ENTRIES IN @lt_bkpf_rev
+*             WHERE companycode EQ @lt_bkpf_rev-bukrs
+*               AND accountingdocument EQ @lt_bkpf_rev-stblg
+*               AND fiscalyear EQ @lt_bkpf_rev-stjah
+*               INTO TABLE @lt_bkpf_rev_cont.
+*
+*      LOOP AT lt_bkpf_rev_cont INTO ls_bkpf_rev_cont.
+*        DELETE et_bkpf WHERE bukrs      EQ ls_bkpf_rev_cont-bukrs
+*                         AND stblg      EQ ls_bkpf_rev_cont-belnr
+*                         AND stjah      EQ ls_bkpf_rev_cont-gjahr
+*                         AND budat+4(2) EQ ls_bkpf_rev_cont-budat+4(2).
+*      ENDLOOP.
+*    ENDIF.
 
     IF is_read_tab-bset EQ abap_true.
       IF lines( et_bkpf ) GT 0.
@@ -160,12 +162,12 @@
            docitem~fiscalyear         = bset~fiscalyear AND
            docitem~AccountingDocumentItem = bset~TaxItem
 
-               FOR ALL ENTRIES IN @et_bkpf
-               WHERE bset~companycode EQ @et_bkpf-bukrs
-                 AND bset~accountingdocument EQ @et_bkpf-belnr
-                 AND bset~fiscalyear EQ @et_bkpf-gjahr
-                 AND bset~taxcode IN @ir_mwskz
-                 AND taxratio~vatconditiontype IN @ir_kschl "Yiğitcan Emin değilim
+             INNER JOIN @et_bkpf AS bkpf
+               ON bset~companycode EQ bkpf~Bukrs
+                 AND bset~accountingdocument EQ bkpf~belnr
+                 AND bset~fiscalyear EQ bkpf~gjahr
+*                 AND bset~taxcode IN @ir_mwskz
+*                 AND taxratio~vatconditiontype IN @ir_kschl "Yiğitcan Emin değilim
                   INTO TABLE @et_bset.
       ENDIF.
     ENDIF.
@@ -198,10 +200,10 @@
                i_journalentryitem~taxcode AS mwskz
 
                FROM i_journalentryitem
-               FOR ALL ENTRIES IN @et_bkpf
-               WHERE i_journalentryitem~companycode EQ @et_bkpf-bukrs
-                 AND i_journalentryitem~accountingdocument EQ @et_bkpf-belnr
-                 AND i_journalentryitem~fiscalyear EQ @et_bkpf-gjahr
+               INNER JOIN @et_bkpf AS BKPF
+               ON  i_journalentryitem~companycode EQ BKPF~bukrs
+                 AND i_journalentryitem~accountingdocument EQ BKPF~belnr
+                 AND i_journalentryitem~fiscalyear EQ BKPF~gjahr
                    INTO CORRESPONDING FIELDS OF TABLE @et_bseg.
       ENDIF.
     ENDIF.
