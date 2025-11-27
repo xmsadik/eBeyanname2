@@ -211,9 +211,11 @@
            WHERE i_journalentryitem~FiscalYear       EQ @p_gjahr
              AND i_journalentryitem~CompanyCode      EQ @p_bukrs
              AND i_journalentryitem~FiscalYearPeriod IN @lr_fiscyearper
-             AND ( ( i_journalentryitem~IsReversal   IS INITIAL AND i_journalentryitem~DebitCreditCode EQ 'H' ) OR ( i_journalentryitem~IsReversal EQ @abap_true AND i_journalentryitem~DebitCreditCode  EQ 'S' ) )
+*             AND ( ( i_journalentryitem~IsReversal   IS INITIAL AND i_journalentryitem~DebitCreditCode EQ 'H' ) OR ( i_journalentryitem~IsReversal EQ @abap_true AND i_journalentryitem~DebitCreditCode  EQ 'S' ) )
              AND i_journalentryitem~ReferenceDocumentType EQ 'RMRP'
              AND i_journalentryitem~SourceLedger          EQ '0L'
+             AND i_journalentryitem~isreversal EQ ''
+             AND i_journalentryitem~isreversed EQ ''
              AND EXISTS ( "
                           SELECT *
                            FROM i_journalentryitem AS account
@@ -227,7 +229,7 @@
                              AND account~AccountingDocument EQ i_journalentryitem~AccountingDocument
                              AND account~FiscalYear         EQ i_journalentryitem~FiscalYear
                              AND account~FiscalYearPeriod   EQ i_journalentryitem~FiscalYearPeriod
-                             AND ( ( account~IsReversal IS INITIAL AND account~DebitCreditCode EQ 'H' ) OR ( account~IsReversal EQ @abap_true AND account~DebitCreditCode  EQ 'S' ) )
+*                             AND ( ( account~IsReversal IS INITIAL AND account~DebitCreditCode EQ 'H' ) OR ( account~IsReversal EQ @abap_true AND account~DebitCreditCode  EQ 'S' ) )
                              AND EXISTS ( "
                                           SELECT *
                                             FROM i_journalentryitem AS gricd
@@ -253,37 +255,37 @@
                                                AND gricd~FiscalYear         EQ account~FiscalYear
                                                AND gricd~FiscalYearPeriod   EQ account~FiscalYearPeriod
                                                AND mg12~hkont               EQ account~GLAccount
-                                               AND ( ( gricd~IsReversal IS INITIAL AND gricd~DebitCreditCode EQ 'H' ) OR ( gricd~IsReversal EQ @abap_true AND gricd~DebitCreditCode  EQ 'S' ) )
+*                                               AND ( ( gricd~IsReversal IS INITIAL AND gricd~DebitCreditCode EQ 'H' ) OR ( gricd~IsReversal EQ @abap_true AND gricd~DebitCreditCode  EQ 'S' ) )
                                             )
                             )
                        APPENDING CORRESPONDING FIELDS OF TABLE @et_data.
 
     "ters kayıtların temizlenmesi
-    lt_reversed  = et_data.
-    lt_reversing = et_data.
+*    lt_reversed  = et_data.
+*    lt_reversing = et_data.
 
-    DELETE lt_reversed  WHERE awref_rev EQ space AND xreversed  EQ space.
-    DELETE lt_reversing WHERE awref_rev EQ space AND xreversing EQ space.
-
-    SORT lt_reversed  BY awref_rev aworg_rev.
-    SORT lt_reversing BY awref aworg.
-    DELETE ADJACENT DUPLICATES FROM lt_reversed COMPARING awref_rev aworg_rev.
-    DELETE ADJACENT DUPLICATES FROM lt_reversing COMPARING awref aworg.
-
-    LOOP AT lt_reversed INTO DATA(ls_reversed).
-
-      READ TABLE lt_reversing TRANSPORTING NO FIELDS WITH KEY awref = ls_reversed-awref_rev
-                                                              aworg = ls_reversed-aworg_rev
-                                                              BINARY SEARCH.
-      CHECK sy-subrc IS INITIAL.
-
-      DELETE et_data WHERE awref_rev EQ ls_reversed-awref_rev
-                       AND aworg_rev EQ ls_reversed-aworg_rev.
-
-      DELETE et_data WHERE awref EQ ls_reversed-awref_rev
-                       AND aworg EQ ls_reversed-aworg_rev.
-
-    ENDLOOP.
+*    DELETE lt_reversed  WHERE awref_rev EQ space AND xreversed  EQ space.
+*    DELETE lt_reversing WHERE awref_rev EQ space AND xreversing EQ space.
+*
+*    SORT lt_reversed  BY awref_rev aworg_rev.
+*    SORT lt_reversing BY awref aworg.
+*    DELETE ADJACENT DUPLICATES FROM lt_reversed COMPARING awref_rev aworg_rev.
+*    DELETE ADJACENT DUPLICATES FROM lt_reversing COMPARING awref aworg.
+*
+*    LOOP AT lt_reversed INTO DATA(ls_reversed).
+*
+*      READ TABLE lt_reversing TRANSPORTING NO FIELDS WITH KEY awref = ls_reversed-awref_rev
+*                                                              aworg = ls_reversed-aworg_rev
+*                                                              BINARY SEARCH.
+*      CHECK sy-subrc IS INITIAL.
+*
+*      DELETE et_data WHERE awref_rev EQ ls_reversed-awref_rev
+*                       AND aworg_rev EQ ls_reversed-aworg_rev.
+*
+*      DELETE et_data WHERE awref EQ ls_reversed-awref_rev
+*                       AND aworg EQ ls_reversed-aworg_rev.
+*
+*    ENDLOOP.
 
     lt_lifnr = et_data.
     SORT lt_lifnr BY bukrs lifnr.
@@ -297,9 +299,9 @@
              FROM i_suppliercompany AS a
              LEFT OUTER JOIN ztax_t_mindk AS b ON b~bukrs = a~CompanyCode"bukrs
                                               AND b~lifnr = a~Supplier"lifnr
-             FOR ALL ENTRIES IN @lt_lifnr
-             WHERE a~Supplier EQ @lt_lifnr-lifnr
-               AND a~CompanyCode EQ @lt_lifnr-bukrs
+             INNER JOIN @lt_lifnr AS LT_LIFNR
+                ON a~Supplier    EQ lt_lifnr~lifnr
+               AND a~CompanyCode EQ lt_lifnr~bukrs
               INTO TABLE  @et_lfb1.
 
     ENDIF.
@@ -319,7 +321,7 @@
                                                         gjahr
                                                         belnr.
 
-      SELECT i_operationalacctgdocitem~CompanyCode AS bukrs ,
+      SELECT i_operationalacctgdocitem~CompanyCode AS rbukrs ,
              i_operationalacctgdocitem~FiscalYear AS gjahr ,
              i_operationalacctgdocitem~AccountingDocument AS belnr ,
              i_operationalacctgdocitem~LedgerGLLineItem AS docln ,
@@ -343,12 +345,12 @@
              i_operationalacctgdocitem~PostingDate AS budat ,
              i_operationalacctgdocitem~FinancialAccountType AS koart
                FROM i_operationalacctgdocitem
-               FOR ALL ENTRIES IN @lt_data
-               WHERE
+               INNER JOIN @lt_data AS lt_data
+               ON
 *                     SourceLedger  EQ '0L'
-                     CompanyCode   EQ @lt_data-bukrs
-                 AND FiscalYear    EQ @lt_data-gjahr
-                 AND AccountingDocument  EQ @lt_data-belnr
+                     CompanyCode   EQ lt_data~bukrs
+                 AND FiscalYear    EQ lt_data~gjahr
+                 AND AccountingDocument  EQ lt_data~belnr
                  AND GLAccount  LIKE '191%'
                 INTO CORRESPONDING FIELDS OF TABLE @et_data_191.
 
