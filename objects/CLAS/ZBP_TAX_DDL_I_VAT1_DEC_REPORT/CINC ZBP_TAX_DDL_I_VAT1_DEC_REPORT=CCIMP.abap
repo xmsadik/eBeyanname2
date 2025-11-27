@@ -246,33 +246,10 @@ CLASS lhc_ZTAX_DDL_I_VAT1_DEC_REPORT IMPLEMENTATION.
       WHEN '02'.
         lv_donem_txt = '3 Aylık'.
     ENDCASE.
-    SELECT SINGLE
-           bukrs,
-           vdkod,
-           mvkno,
-           mtckn,
-           msoyad,
-           mad,
-           memail,
-           malkod,
-           mtelno,
-           hsvvkn,
-           hsv,
-           hsvtckn,
-           hsvemail,
-           hsvakod,
-           hsvtelno,
-           dvkno,
-           dtckn,
-           dsoyad,
-           dad,
-           demail,
-           dalkod,
-           dtelno
-
+    SELECT SINGLE *
            FROM ztax_t_beyg
            WHERE bukrs EQ @p_bukrs
-           INTO @ls_beyg.
+           INTO CORRESPONDING FIELDS OF @ls_beyg.
 
     SELECT SINGLE beyanv
            FROM ztax_t_beyv

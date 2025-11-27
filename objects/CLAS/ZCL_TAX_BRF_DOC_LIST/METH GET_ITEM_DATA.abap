@@ -101,8 +101,8 @@
               "
               WHERE i_journalentryitem~FiscalYear       EQ @p_gjahr
                 AND i_journalentryitem~CompanyCode      EQ @p_bukrs
-             AND i_journalentryitem~FiscalYearPeriod IN @lr_fiscyearper
-             AND ( ( i_journalentryitem~IsReversal   IS INITIAL AND i_journalentryitem~DebitCreditCode EQ 'H' ) OR ( i_journalentryitem~IsReversal EQ @abap_true AND i_journalentryitem~DebitCreditCode  EQ 'S' ) )
+                AND i_journalentryitem~FiscalYearPeriod IN @lr_fiscyearper
+                AND ( ( i_journalentryitem~IsReversal   IS INITIAL AND i_journalentryitem~DebitCreditCode EQ 'H' ) OR ( i_journalentryitem~IsReversal EQ @abap_true AND i_journalentryitem~DebitCreditCode  EQ 'S' ) )
                 AND i_journalentryitem~ReferenceDocumentType  NE 'RMRP'
                 AND i_journalentryitem~SourceLedger       EQ '0L'
                 AND EXISTS ( "
@@ -113,36 +113,32 @@
                               ON  mg1~bukrs  EQ account~CompanyCode
                               AND mg1~hkont  EQ account~GLAccount
                               "
-                              WHERE
-                                    account~SourceLedger       EQ i_journalentryitem~SourceLedger
-                              AND   account~CompanyCode        EQ i_journalentryitem~CompanyCode
-                              AND   account~AccountingDocument EQ i_journalentryitem~AccountingDocument
-                              AND   account~FiscalYear         EQ i_journalentryitem~FiscalYear
-                             AND account~FiscalYearPeriod   EQ i_journalentryitem~FiscalYearPeriod
-                             AND ( ( account~IsReversal     IS INITIAL AND account~DebitCreditCode EQ 'H' ) OR ( account~IsReversal EQ @abap_true AND account~DebitCreditCode  EQ 'S' ) )
+                              WHERE   account~SourceLedger       EQ i_journalentryitem~SourceLedger
+                                AND   account~CompanyCode        EQ i_journalentryitem~CompanyCode
+                                AND   account~AccountingDocument EQ i_journalentryitem~AccountingDocument
+                                AND   account~FiscalYear         EQ i_journalentryitem~FiscalYear
+                                AND   account~FiscalYearPeriod   EQ i_journalentryitem~FiscalYearPeriod
+                             AND ( (  account~IsReversal IS INITIAL AND account~DebitCreditCode EQ 'H' ) OR ( account~IsReversal EQ @abap_true AND account~DebitCreditCode  EQ 'S' ) )
                                 AND EXISTS ( "
                                              SELECT *
                                                FROM i_journalentryitem AS gricd
-                                               "
                                                INNER JOIN i_suppliercompany
                                                ON i_suppliercompany~CompanyCode EQ gricd~CompanyCode
                                                AND i_suppliercompany~Supplier EQ gricd~Supplier
                                                "
-                                               INNER JOIN ztax_t_mindk AS mindk
-                                                ON  mindk~bukrs  EQ gricd~CompanyCode
-                                                AND mindk~lifnr  EQ i_suppliercompany~Supplier
+*                                               INNER JOIN ztax_t_mindk AS mindk
+*                                                ON  mindk~bukrs  EQ gricd~CompanyCode
+*                                                AND mindk~lifnr  EQ i_suppliercompany~Supplier
 
                                                INNER JOIN ztax_t_mg AS mg12
                                                 ON  mg12~bukrs  EQ gricd~CompanyCode
-                                                AND mg12~mindk  EQ mindk~mindk
+*                                                AND mg12~mindk  EQ mindk~mindk
 
-                                                "
-                                                WHERE
-*                                                  gricd~SourceLedger       EQ account~SourceLedger
-                                                      gricd~CompanyCode        EQ account~CompanyCode
+                                                WHERE gricd~SourceLedger       EQ account~SourceLedger
+                                                  AND gricd~CompanyCode        EQ account~CompanyCode
                                                   AND gricd~AccountingDocument EQ account~AccountingDocument
                                                   AND gricd~FiscalYear         EQ account~FiscalYear
-*                                               AND gricd~FiscalYearPeriod   EQ account~FiscalYearPeriod
+                                                  AND gricd~FiscalYearPeriod   EQ account~FiscalYearPeriod
                                                   AND mg12~hkont               EQ account~GLAccount
                                                   AND ( ( gricd~IsReversal IS INITIAL AND gricd~DebitCreditCode EQ 'H' ) OR ( gricd~IsReversal EQ @abap_true AND gricd~DebitCreditCode  EQ 'S' ) )
                                             )
@@ -212,9 +208,8 @@
            LEFT OUTER JOIN i_supplier
            ON i_supplier~Supplier           EQ i_supplierinvoiceapi01~InvoicingParty
            "
-           WHERE
-           i_journalentryitem~FiscalYear       EQ @p_gjahr
-         AND     i_journalentryitem~CompanyCode      EQ @p_bukrs
+           WHERE i_journalentryitem~FiscalYear       EQ @p_gjahr
+             AND i_journalentryitem~CompanyCode      EQ @p_bukrs
              AND i_journalentryitem~FiscalYearPeriod IN @lr_fiscyearper
              AND ( ( i_journalentryitem~IsReversal   IS INITIAL AND i_journalentryitem~DebitCreditCode EQ 'H' ) OR ( i_journalentryitem~IsReversal EQ @abap_true AND i_journalentryitem~DebitCreditCode  EQ 'S' ) )
              AND i_journalentryitem~ReferenceDocumentType EQ 'RMRP'
@@ -227,8 +222,7 @@
                            ON  mg1~bukrs  EQ account~CompanyCode
                            AND mg1~hkont  EQ account~GLAccount
                            "
-                           WHERE
-                                 account~SourceLedger       EQ i_journalentryitem~SourceLedger
+                           WHERE account~SourceLedger       EQ i_journalentryitem~SourceLedger
                              AND account~CompanyCode        EQ i_journalentryitem~CompanyCode
                              AND account~AccountingDocument EQ i_journalentryitem~AccountingDocument
                              AND account~FiscalYear         EQ i_journalentryitem~FiscalYear
@@ -237,25 +231,23 @@
                              AND EXISTS ( "
                                           SELECT *
                                             FROM i_journalentryitem AS gricd
-                                            "
                                             INNER JOIN i_supplierinvoiceapi01
                                              ON i_supplierinvoiceapi01~SupplierInvoice EQ gricd~ReferenceDocument
                                             AND i_supplierinvoiceapi01~FiscalYear      EQ gricd~ReferenceDocumentContext
-                                            "
+
                                             INNER JOIN i_suppliercompany
                                              ON i_suppliercompany~CompanyCode EQ i_supplierinvoiceapi01~CompanyCode
                                             AND i_suppliercompany~Supplier    EQ i_supplierinvoiceapi01~InvoicingParty
-                                            "
-                                           INNER JOIN ztax_t_mindk AS mindk
-                                             ON  mindk~bukrs  EQ i_supplierinvoiceapi01~CompanyCode
-                                             AND mindk~lifnr  EQ i_supplierinvoiceapi01~InvoicingParty
+
+*                                           INNER JOIN ztax_t_mindk AS mindk
+*                                             ON  mindk~bukrs  EQ i_supplierinvoiceapi01~CompanyCode
+*                                             AND mindk~lifnr  EQ i_supplierinvoiceapi01~InvoicingParty
 
                                             INNER JOIN ztax_t_mg AS mg12
                                              ON  mg12~bukrs  EQ gricd~CompanyCode
-                                             AND mg12~mindk  EQ mindk~mindk
-                                             "
-                                             WHERE
-                                              gricd~SourceLedger       EQ account~SourceLedger
+*                                             AND mg12~mindk  EQ mindk~mindk
+
+                                             WHERE gricd~SourceLedger       EQ account~SourceLedger
                                                AND gricd~CompanyCode        EQ account~CompanyCode
                                                AND gricd~AccountingDocument EQ account~AccountingDocument
                                                AND gricd~FiscalYear         EQ account~FiscalYear
