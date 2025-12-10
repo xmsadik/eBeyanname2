@@ -42,6 +42,10 @@
           WHERE ztax_t_mg~bukrs EQ @p_bukrs
            INTO TABLE @et_mg.
 
+
+
+              .
+
     SELECT i_journalentryitem~CompanyCode AS bukrs ,
               i_journalentryitem~FiscalYear AS gjahr ,
               i_journalentryitem~AccountingDocument AS belnr ,
@@ -258,100 +262,100 @@
                             )
                        APPENDING CORRESPONDING FIELDS OF TABLE @et_data.
 
-    "ters kayıtların temizlenmesi
-    lt_reversed  = et_data.
-    lt_reversing = et_data.
+      "ters kayıtların temizlenmesi
+      lt_reversed  = et_data.
+      lt_reversing = et_data.
 
-    DELETE lt_reversed  WHERE awref_rev EQ space AND xreversed  EQ space.
-    DELETE lt_reversing WHERE awref_rev EQ space AND xreversing EQ space.
+      DELETE lt_reversed  WHERE awref_rev EQ space AND xreversed  EQ space.
+      DELETE lt_reversing WHERE awref_rev EQ space AND xreversing EQ space.
 
-    SORT lt_reversed  BY awref_rev aworg_rev.
-    SORT lt_reversing BY awref aworg.
-    DELETE ADJACENT DUPLICATES FROM lt_reversed COMPARING awref_rev aworg_rev.
-    DELETE ADJACENT DUPLICATES FROM lt_reversing COMPARING awref aworg.
+      SORT lt_reversed  BY awref_rev aworg_rev.
+      SORT lt_reversing BY awref aworg.
+      DELETE ADJACENT DUPLICATES FROM lt_reversed COMPARING awref_rev aworg_rev.
+      DELETE ADJACENT DUPLICATES FROM lt_reversing COMPARING awref aworg.
 
-    LOOP AT lt_reversed INTO DATA(ls_reversed).
+      LOOP AT lt_reversed INTO DATA(ls_reversed).
 
-      READ TABLE lt_reversing TRANSPORTING NO FIELDS WITH KEY awref = ls_reversed-awref_rev
-                                                              aworg = ls_reversed-aworg_rev
-                                                              BINARY SEARCH.
-      CHECK sy-subrc IS INITIAL.
+        READ TABLE lt_reversing TRANSPORTING NO FIELDS WITH KEY awref = ls_reversed-awref_rev
+                                                                aworg = ls_reversed-aworg_rev
+                                                                BINARY SEARCH.
+        CHECK sy-subrc IS INITIAL.
 
-      DELETE et_data WHERE awref_rev EQ ls_reversed-awref_rev
-                       AND aworg_rev EQ ls_reversed-aworg_rev.
+        DELETE et_data WHERE awref_rev EQ ls_reversed-awref_rev
+                         AND aworg_rev EQ ls_reversed-aworg_rev.
 
-      DELETE et_data WHERE awref EQ ls_reversed-awref_rev
-                       AND aworg EQ ls_reversed-aworg_rev.
+        DELETE et_data WHERE awref EQ ls_reversed-awref_rev
+                         AND aworg EQ ls_reversed-aworg_rev.
 
-    ENDLOOP.
+      ENDLOOP.
 
-    lt_lifnr = et_data.
-    SORT lt_lifnr BY bukrs lifnr.
-    DELETE ADJACENT DUPLICATES FROM lt_lifnr COMPARING bukrs lifnr.
+      lt_lifnr = et_data.
+      SORT lt_lifnr BY bukrs lifnr.
+      DELETE ADJACENT DUPLICATES FROM lt_lifnr COMPARING bukrs lifnr.
 
-    IF lines( lt_lifnr ) GT 0.
+      IF lines( lt_lifnr ) GT 0.
 
-      SELECT a~Supplier AS lifnr ,
-             a~CompanyCode AS bukrs ,
-             b~mindk
-             FROM i_suppliercompany AS a
-             LEFT OUTER JOIN ztax_t_mindk AS b ON b~bukrs = a~CompanyCode"bukrs
-                                              AND b~lifnr = a~Supplier"lifnr
-             INNER JOIN @lt_lifnr AS lt_lifnr
-                ON a~Supplier    EQ lt_lifnr~lifnr
-               AND a~CompanyCode EQ lt_lifnr~bukrs
-              INTO TABLE  @et_lfb1.
+        SELECT a~Supplier AS lifnr ,
+               a~CompanyCode AS bukrs ,
+               b~mindk
+               FROM i_suppliercompany AS a
+               LEFT OUTER JOIN ztax_t_mindk AS b ON b~bukrs = a~CompanyCode"bukrs
+                                                AND b~lifnr = a~Supplier"lifnr
+               INNER JOIN @lt_lifnr AS lt_lifnr
+                  ON a~Supplier    EQ lt_lifnr~lifnr
+                 AND a~CompanyCode EQ lt_lifnr~bukrs
+                INTO TABLE  @et_lfb1.
 
-    ENDIF.
+      ENDIF.
 
-    SORT et_lfb1 BY bukrs lifnr.
-    SORT et_mg BY bukrs hkont mindk.
+      SORT et_lfb1 BY bukrs lifnr.
+      SORT et_mg BY bukrs hkont mindk.
 
-    IF lines( et_data ) GT 0.
+      IF lines( et_data ) GT 0.
 
-      lt_data = et_data.
+        lt_data = et_data.
 
-      SORT lt_data BY bukrs
-                      gjahr
-                      belnr.
+        SORT lt_data BY bukrs
+                        gjahr
+                        belnr.
 
-      DELETE ADJACENT DUPLICATES FROM lt_data COMPARING bukrs
-                                                        gjahr
-                                                        belnr.
+        DELETE ADJACENT DUPLICATES FROM lt_data COMPARING bukrs
+                                                          gjahr
+                                                          belnr.
 
-      SELECT i_operationalacctgdocitem~CompanyCode AS rbukrs ,
-             i_operationalacctgdocitem~FiscalYear AS gjahr ,
-             i_operationalacctgdocitem~AccountingDocument AS belnr ,
-             i_operationalacctgdocitem~LedgerGLLineItem AS docln ,
+        SELECT i_operationalacctgdocitem~CompanyCode AS rbukrs ,
+               i_operationalacctgdocitem~FiscalYear AS gjahr ,
+               i_operationalacctgdocitem~AccountingDocument AS belnr ,
+               i_operationalacctgdocitem~LedgerGLLineItem AS docln ,
 *             I_OPERATIONALACCTGDOCITEM~LedgerFiscalYear AS ryear ,
 *             I_OPERATIONALACCTGDOCITEM~FiscalYearPeriod AS fiscyearper ,
-             i_operationalacctgdocitem~AmountInCompanyCodeCurrency AS hsl ,
-             i_operationalacctgdocitem~AmountInTransactionCurrency AS wsl ,
-             i_operationalacctgdocitem~DebitCreditCode AS drcrk ,
+               i_operationalacctgdocitem~AmountInCompanyCodeCurrency AS hsl ,
+               i_operationalacctgdocitem~AmountInTransactionCurrency AS wsl ,
+               i_operationalacctgdocitem~DebitCreditCode AS drcrk ,
 *             I_OPERATIONALACCTGDOCITEM~ReversalReferenceDocument AS awref_rev ,
 *             I_OPERATIONALACCTGDOCITEM~ReversalReferenceDocumentCntxt AS aworg_rev ,
-             i_operationalacctgdocitem~ReferenceDocumentType AS awtyp ,
+               i_operationalacctgdocitem~ReferenceDocumentType AS awtyp ,
 *             I_OPERATIONALACCTGDOCITEM~ReferenceDocument AS awref ,
 *             I_OPERATIONALACCTGDOCITEM~ReferenceDocumentContext AS aworg ,
 *             I_OPERATIONALACCTGDOCITEM~IsReversal AS xreversing ,
 *             I_OPERATIONALACCTGDOCITEM~IsReversed AS xreversed ,
-             i_operationalacctgdocitem~Supplier AS lifnr ,
-             i_operationalacctgdocitem~GLAccount AS racct ,
-             i_operationalacctgdocitem~DocumentItemText AS sgtxt ,
-             i_operationalacctgdocitem~TransactionCurrency AS rwcur ,
-             i_operationalacctgdocitem~AssignmentReference AS zuonr ,
-             i_operationalacctgdocitem~PostingDate AS budat ,
-             i_operationalacctgdocitem~FinancialAccountType AS koart
-               FROM i_operationalacctgdocitem
-               INNER JOIN @lt_data AS lt_data
-               ON
+               i_operationalacctgdocitem~Supplier AS lifnr ,
+               i_operationalacctgdocitem~GLAccount AS racct ,
+               i_operationalacctgdocitem~DocumentItemText AS sgtxt ,
+               i_operationalacctgdocitem~TransactionCurrency AS rwcur ,
+               i_operationalacctgdocitem~AssignmentReference AS zuonr ,
+               i_operationalacctgdocitem~PostingDate AS budat ,
+               i_operationalacctgdocitem~FinancialAccountType AS koart
+                 FROM i_operationalacctgdocitem
+                 INNER JOIN @lt_data AS lt_data
+                 ON
 *                     SourceLedger  EQ '0L'
-                     CompanyCode   EQ lt_data~bukrs
-                 AND FiscalYear    EQ lt_data~gjahr
-                 AND AccountingDocument  EQ lt_data~belnr
-                 AND GLAccount  LIKE '191%'
-                INTO CORRESPONDING FIELDS OF TABLE @et_data_191.
+                       CompanyCode   EQ lt_data~bukrs
+                   AND FiscalYear    EQ lt_data~gjahr
+                   AND AccountingDocument  EQ lt_data~belnr
+                   AND GLAccount  LIKE '191%'
+                  INTO CORRESPONDING FIELDS OF TABLE @et_data_191.
 
-    ENDIF.
+      ENDIF.
 
-  ENDMETHOD.
+    ENDMETHOD.

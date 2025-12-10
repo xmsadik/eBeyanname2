@@ -73,36 +73,36 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
       DATA(p_donemb) = 01.
     ENDIF.
 
-    TYPES BEGIN OF lty_beyg.
-    TYPES bukrs    TYPE ztax_T_beyg-bukrs.
-    TYPES vdkod    TYPE ztax_T_beyg-vdkod.
-    TYPES mvkno    TYPE ztax_T_beyg-mvkno.
-    TYPES mtckn    TYPE ztax_T_beyg-mtckn.
-    TYPES msoyad   TYPE ztax_T_beyg-msoyad.
-    TYPES mad      TYPE ztax_T_beyg-mad.
-    TYPES memail   TYPE ztax_T_beyg-memail.
-    TYPES malkod   TYPE ztax_T_beyg-malkod.
-    TYPES mtelno   TYPE ztax_T_beyg-mtelno.
-    TYPES hsvvkn   TYPE ztax_T_beyg-hsvvkn.
-    TYPES hsv      TYPE ztax_T_beyg-hsv.
-    TYPES hsvtckn  TYPE ztax_T_beyg-hsvtckn.
-    TYPES hsvemail TYPE ztax_T_beyg-hsvemail.
-    TYPES hsvakod  TYPE ztax_T_beyg-hsvakod.
-    TYPES hsvtelno TYPE ztax_T_beyg-hsvtelno.
-    TYPES dvkno    TYPE ztax_T_beyg-dvkno.
-    TYPES dtckn    TYPE ztax_T_beyg-dtckn.
-    TYPES dsoyad   TYPE ztax_T_beyg-dsoyad.
-    TYPES dad      TYPE ztax_T_beyg-dad.
-    TYPES demail   TYPE ztax_T_beyg-demail.
-    TYPES dalkod   TYPE ztax_T_beyg-dalkod.
-    TYPES dtelno   TYPE ztax_T_beyg-dtelno.
-    TYPES END OF lty_beyg.
+*    TYPES BEGIN OF lty_beyg.
+*    TYPES bukrs    TYPE ztax_T_beyg-bukrs.
+*    TYPES vdkod    TYPE ztax_T_beyg-vdkod.
+*    TYPES mvkno    TYPE ztax_T_beyg-mvkno.
+*    TYPES mtckn    TYPE ztax_T_beyg-mtckn.
+*    TYPES msoyad   TYPE ztax_T_beyg-msoyad.
+*    TYPES mad      TYPE ztax_T_beyg-mad.
+*    TYPES memail   TYPE ztax_T_beyg-memail.
+*    TYPES malkod   TYPE ztax_T_beyg-malkod.
+*    TYPES mtelno   TYPE ztax_T_beyg-mtelno.
+*    TYPES hsvvkn   TYPE ztax_T_beyg-hsvvkn.
+*    TYPES hsv      TYPE ztax_T_beyg-hsv.
+*    TYPES hsvtckn  TYPE ztax_T_beyg-hsvtckn.
+*    TYPES hsvemail TYPE ztax_T_beyg-hsvemail.
+*    TYPES hsvakod  TYPE ztax_T_beyg-hsvakod.
+*    TYPES hsvtelno TYPE ztax_T_beyg-hsvtelno.
+*    TYPES dvkno    TYPE ztax_T_beyg-dvkno.
+*    TYPES dtckn    TYPE ztax_T_beyg-dtckn.
+*    TYPES dsoyad   TYPE ztax_T_beyg-dsoyad.
+*    TYPES dad      TYPE ztax_T_beyg-dad.
+*    TYPES demail   TYPE ztax_T_beyg-demail.
+*    TYPES dalkod   TYPE ztax_T_beyg-dalkod.
+*    TYPES dtelno   TYPE ztax_T_beyg-dtelno.
+*    TYPES END OF lty_beyg.
 
     DATA lv_donem_txt(30).
     DATA lv_value(100).
     DATA lv_beyanv        TYPE ztax_t_beyv-beyanv.
     DATA lv_dyolu         TYPE ztax_T_beydy-dyolu.
-    DATA ls_beyg          TYPE lty_beyg.
+    DATA ls_beyg          TYPE ztax_t_beyg.
     DATA lv_monat         TYPE monat.
     DATA lv_xml_string    TYPE string.
     DATA lv_xml           TYPE string.
@@ -147,7 +147,8 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
     DATA lv_dalankodu     TYPE string.
     DATA lv_dtelno        TYPE string.
     DATA lv_filename      TYPE string.
-    DATA lv_tic_sicil_no  TYPE string.
+*    DATA lv_tic_sicil_no  TYPE string.
+    DATA lv_tsicil        TYPE string.
     DATA lt_x             TYPE mtty_x.
     DATA lv_size          TYPE i.
     DATA lv_tabix         TYPE sy-tabix.
@@ -178,6 +179,14 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
 
     DATA mt_ode         TYPE mtty_ode.
 
+    DATA : lv_sifat TYPE string.
+
+    IF ls_beyg-hsv EQ 1.
+      lv_sifat = 'Temsilci'.
+    ELSEIF ls_beyg-hsv  EQ 2.
+      lv_sifat = 'Kendisi'.
+    ENDIF.
+
 *    READ TABLE mr_monat ASSIGNING <fs> INDEX 1.
 *    IF <fs> IS ASSIGNED.
 *      ASSIGN COMPONENT 'LOW' OF STRUCTURE <fs> TO <fs_value>.
@@ -193,38 +202,15 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
 
     CASE p_donemb.
       WHEN '01'.
-        lv_donem_txt = TEXT-d01.
+        lv_donem_txt = 'aylik'.
       WHEN '02'.
-        lv_donem_txt = TEXT-d02.
+        lv_donem_txt = '3 Aylık'.
     ENDCASE.
 
-    SELECT SINGLE
-           bukrs,
-           vdkod,
-           mvkno,
-           mtckn,
-           msoyad,
-           mad,
-           memail,
-           malkod,
-           mtelno,
-           hsvvkn,
-           hsv,
-           hsvtckn,
-           hsvemail,
-           hsvakod,
-           hsvtelno,
-           dvkno,
-           dtckn,
-           dsoyad,
-           dad,
-           demail,
-           dalkod,
-           dtelno
-
+    SELECT SINGLE *
            FROM ztax_t_beyg
            WHERE bukrs EQ @p_bukrs
-           INTO @ls_beyg.
+           INTO CORRESPONDING FIELDS OF @ls_beyg.
 
     SELECT SINGLE beyanv
            FROM ztax_t_beyv
@@ -306,11 +292,16 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
                 ls_beyg-mad
                 '</adi>'
                 INTO lv_madi.
+*
+*    CONCATENATE '<ticSicilNo>'
+*                ls_isy-isyscno
+*                '</ticSicilNo>'
+*                INTO lv_tic_sicil_no.
 
     CONCATENATE '<ticSicilNo>'
-                ls_isy-isyscno
+                ls_beyg-tsicil
                 '</ticSicilNo>'
-                INTO lv_tic_sicil_no.
+                INTO lv_tsicil.
 
     CONCATENATE '<eposta>'
                 ls_beyg-memail
@@ -330,10 +321,12 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
     CLEAR ls_hsv_val.
 *    READ TABLE lt_hsv_val INTO ls_hsv_val WITH KEY domvalue_l = ls_beyg-hsv.
 *
-*    CONCATENATE '<hsv sifat="'
+
+    CONCATENATE '<hsv sifat="'
 *                ls_hsv_val-ddtext
-*                '">'
-*                INTO lv_hsv.
+                lv_sifat
+                '">'
+                INTO lv_hsv.
 
     CONCATENATE '<soyadi>'
                 ls_beyg-msoyad
@@ -346,9 +339,10 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
                 INTO ls_beyg-mad.
 
     CONCATENATE '<ticSicilNo>'
-                ls_isy-isyscno
+                ls_beyg-tsicil
                 '</ticSicilNo>'
-                INTO lv_tic_sicil_no.
+                INTO lv_tsicil.
+
 
     IF ls_beyg-hsvvkn IS NOT INITIAL.
 
@@ -442,7 +436,7 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
                 lv_mtckimlikno
                 lv_msoyadi
                 lv_madi
-                lv_tic_sicil_no
+                lv_tsicil
                 lv_meposta
                 lv_malankodu
                 lv_mtelno
@@ -450,7 +444,7 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
                 lv_hsv
                 lv_hsvsoyadi
                 lv_hsvadi
-                lv_tic_sicil_no
+                lv_tsicil
                 lv_hsvvergino
                 lv_hsvtckimlikno
                 lv_hsveposta
@@ -462,7 +456,7 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
                 lv_dtckimlikno
                 lv_dsoyadi
                 lv_dadi
-                lv_tic_sicil_no
+                lv_tsicil
                 lv_deposta
                 lv_dalankodu
                 lv_dtelno
@@ -472,8 +466,8 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
                 '<subeNo>0</subeNo>'
                 '<beyanimVarYok>1</beyanimVarYok>'
                 '<matrahBildirimleri>'
-                INTO lv_xml_string
-                SEPARATED BY space.
+                INTO lv_xml_string.
+*                SEPARATED BY space.
     "<-
 
     CLEAR lt_ode.
@@ -596,8 +590,8 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
 
       CONCATENATE lv_xml_string
       '<odemeBildirimi>'
-        '<soyadi>'  ls_ode-name2 '</soyadi>'
-        '<adi>' ls_ode-name1 '</adi>'
+        '<soyadi>' ls_ode-name1 '</soyadi>'
+        '<adi>' ls_ode-name2 '</adi>'
         '<adres>' ls_ode-adres '</adres>'
         INTO lv_xml_string.
 
@@ -620,7 +614,7 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
         '<odemeTarih>' ls_ode-budat+6(2) ls_ode-budat+4(2) ls_ode-budat+0(4) '</odemeTarih>'
         '<odemeSeriSiraNo>' ls_ode-xblnr '</odemeSeriSiraNo>'
         '<kesintiTutari>' lv_total2_char '</kesintiTutari>'
-        '<kdvTevkifati>0</kdvTevkifati>'
+        '<kdvTevkifati></kdvTevkifati>'
       '</odemeBildirimi>'
       INTO lv_xml_string.
 
@@ -675,13 +669,13 @@ CLASS lhc_ZTAX_DDL_I_BRF_DOC_LIST IMPLEMENTATION.
                   '</isyeriCalisanSGKBilgileri>'
                 '</ekler>'
               '</ozel>'
-                INTO lv_xml_string
-                SEPARATED BY space.
+                INTO lv_xml_string.
+*                SEPARATED BY space.
 
     CONCATENATE lv_xml_string
                 '</beyanname>'
-                INTO lv_xml_string
-                SEPARATED BY space.
+                INTO lv_xml_string.
+*                SEPARATED BY space.
 
     CLEAR lv_filename.
     CONCATENATE lv_dyolu

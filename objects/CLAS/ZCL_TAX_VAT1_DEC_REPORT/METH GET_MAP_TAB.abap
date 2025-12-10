@@ -11,7 +11,8 @@
            ztax_t_kdv1g~shkzg  ,
            ztax_t_k1k2s~kural  ,
            ztax_t_k1k1~acklm  AS acklm1 ,
-           ztax_t_k1k2~acklm  AS acklm2
+           ztax_t_k1k2~acklm  AS acklm2,
+           ztax_t_kdv1g~blart
            FROM ztax_t_kdv1g
            INNER JOIN ztax_t_k1s
            ON ztax_t_k1s~bukrs EQ ztax_t_kdv1g~bukrs

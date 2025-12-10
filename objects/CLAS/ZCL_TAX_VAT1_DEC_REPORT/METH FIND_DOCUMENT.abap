@@ -164,7 +164,7 @@
 
 
       SELECT
-      j~taxcode AS mwskz , r~ConditionRateRatio AS kbetr ,r~vatconditiontype AS kschl,
+      j~taxcode AS mwskz , r~ConditionRateRatio AS kbetr ,r~vatconditiontype AS kschl,j~accountingdocumenttype AS blart,
         SUM( CASE WHEN ( j~transactiontypedetermination = 'VST' OR
                  j~transactiontypedetermination = 'MWS' )  THEN j~amountincompanycodecurrency ELSE 0 END ) AS hwste,
         SUM( CASE WHEN ( j~transactiontypedetermination <> 'VST' AND
@@ -185,7 +185,7 @@
          AND j~isreversed = ''
         AND ( j~financialaccounttype = 'S' OR j~financialaccounttype = 'A' )
          AND j~taxcode <> ''
-         GROUP BY j~taxcode, r~ConditionRateRatio,r~vatconditiontype
+         GROUP BY j~taxcode, r~ConditionRateRatio,r~vatconditiontype, j~accountingdocumenttype
       ORDER BY j~taxcode
       INTO CORRESPONDING FIELDS OF TABLE @et_bset   .
 
@@ -210,7 +210,7 @@
 *                 AND bseg~belnr EQ et_bset-belnr
 *                 AND bseg~gjahr EQ et_bset-gjahr.
 
-*        SELECT DISTINCT CompanyCode AS bukrs, "YiğitcanÖzdemir Distint ekledim
+*        SELECT DISTINCT CompanyCode AS bukrs,
 *               AccountingDocument AS belnr,
 *               fiscalyear AS gjahr ,
 *               FinancialAccountType AS koart ,
@@ -235,7 +235,7 @@
 *                 AND bseg~belnr EQ et_bkpf-belnr
 *                 AND bseg~gjahr EQ et_bkpf-gjahr.
 
-*        SELECT DISTINCT CompanyCode AS bukrs, "YiğitcanÖzdemir Distint ekledim
+*        SELECT DISTINCT CompanyCode AS bukrs,
 *               AccountingDocument AS belnr,
 *               fiscalyear AS gjahr ,
 *               FinancialAccountType AS koart ,

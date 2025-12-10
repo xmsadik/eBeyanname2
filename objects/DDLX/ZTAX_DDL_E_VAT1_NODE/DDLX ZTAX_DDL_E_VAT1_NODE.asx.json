@@ -7,9 +7,9 @@
     "DDLXNAME":"ZTAX_DDL_E_VAT1_NODE",
     "VERSION":"A",
     "CHANGED_BY":"SAP_CUSTOMER",
-    "CHANGED_ON":"2025-05-06",
-    "CHANGED_AT":"12:59:43",
-    "UUID":"FA163EBBCF7E1FE08ACF3F3E8E4C4486",
+    "CHANGED_ON":"2025-12-10",
+    "CHANGED_AT":"12:18:26",
+    "UUID":"FA163EBBCF7E1FE0B5B84A81A9B52714",
     "ABAP_LANGUAGE_VERSION":"5"
    }
   ]
@@ -34,7 +34,7 @@
     "DDLXNAME":"ZTAX_DDL_E_VAT1_NODE",
     "VERSION":"A",
     "UUID":"",
-    "SOURCE":"@Metadata.layer: #CORE\r\n@Search.searchable: true\r\n@UI:{\r\nheaderInfo:{\r\n                typeNamePlural: 'Düğüm',\r\n                typeName: 'Düğüm',\r\n                title:{ type: #STANDARD, label: 'Düğüm', value: 'DCIndicator' }\r\n           }\r\n}\r\nannotate entity ZTAX_DDL_P_VAT1_NODE\r\n    with \r\n{\r\n  @UI.facet: [ { id:            'Parameters',\r\n                 purpose:       #STANDARD,\r\n                 type:          #IDENTIFICATION_REFERENCE,\r\n                 label:         'Düğüm',\r\n                 position:      10 } ]\r\n\r\n  @UI: { lineItem:       [ { position: 10, importance: #HIGH } ],\r\n         selectionField: [ { position: 10 } ],\r\n         identification: [ { position: 10 } ]}\r\n  @Search.defaultSearchElement: true\r\n  @Consumption.valueHelpDefinition: [ { entity: { name: 'I_CompanyCodeVH', element: 'CompanyCode' }}]\r\n  CompanyCode;\r\n  @UI: { lineItem:       [ { position: 20, importance: #HIGH } ],\r\n         selectionField: [ { position: 20 } ],\r\n         identification: [ { position: 20 } ]}\r\n  Refrection1;\r\n  @UI: { lineItem:       [ { position: 30, importance: #HIGH } ],\r\n         selectionField: [ { position: 30 } ],\r\n         identification: [ { position: 30 } ]}\r\n  Refrection2;\r\n  @UI: { lineItem:       [ { position: 40, importance: #HIGH } ],\r\n         selectionField: [ { position: 40 } ],\r\n         identification: [ { position: 40 } ]} \r\n  TaxCode;\r\n  @UI: { lineItem:       [ { position: 50, importance: #HIGH } ],\r\n         selectionField: [ { position: 50 } ],\r\n         identification: [ { position: 50 } ]} \r\n  GLAccountNumber; \r\n  @UI: { lineItem:       [ { position: 60 , label : 'Toplam Alanı'} ],\r\n         selectionField: [ { position: 60 } ],\r\n         identification: [ { position: 60 , label : 'Toplam Alanı'}  ]} \r\n  TotalArea; \r\n  @UI: { lineItem:       [ { position: 70 } ],\r\n         selectionField: [ { position: 70 } ],\r\n         identification: [ { position: 70 } ]} \r\n           @Consumption.valueHelpDefinition: [ { entity: { name: 'ZTAX_DDL_VH_TOPALK', element: 'topalk' }}]\r\n  TotalAreaRules; \r\n  @UI: { lineItem:       [ { position: 80 } ],\r\n         selectionField: [ { position: 80 } ],\r\n         identification: [ { position: 80 } ]} \r\n  DCIndicator; \r\n\r\n}"
+    "SOURCE":"@Metadata.layer: #CORE\r\n@Search.searchable: true\r\n@UI:{\r\nheaderInfo:{\r\n                typeNamePlural: 'Düğüm',\r\n                typeName: 'Düğüm',\r\n                title:{ type: #STANDARD, label: 'Düğüm', value: 'DCIndicator' }\r\n           }\r\n}\r\nannotate entity ZTAX_DDL_P_VAT1_NODE with\r\n{\r\n  @UI.facet: [ { id:            'Parameters',\r\n                 purpose:       #STANDARD,\r\n                 type:          #IDENTIFICATION_REFERENCE,\r\n                 label:         'Düğüm',\r\n                 position:      10 } ]\r\n\r\n  @UI: { lineItem:       [ { position: 10, importance: #HIGH } ],\r\n         selectionField: [ { position: 10 } ],\r\n         identification: [ { position: 10 } ]}\r\n  @Search.defaultSearchElement: true\r\n  @Consumption.valueHelpDefinition: [ { entity: { name: 'I_CompanyCodeVH', element: 'CompanyCode' }}]\r\n  CompanyCode;\r\n  @UI: { lineItem:       [ { position: 20, importance: #HIGH } ],\r\n         selectionField: [ { position: 20 } ],\r\n         identification: [ { position: 20 } ]}\r\n  Refrection1;\r\n  @UI: { lineItem:       [ { position: 30, importance: #HIGH } ],\r\n         selectionField: [ { position: 30 } ],\r\n         identification: [ { position: 30 } ]}\r\n  Refrection2;\r\n  @UI: { lineItem:       [ { position: 40, importance: #HIGH } ],\r\n         selectionField: [ { position: 40 } ],\r\n         identification: [ { position: 40 } ]}\r\n  TaxCode;\r\n  @UI: { lineItem:       [ { position: 50, importance: #HIGH } ],\r\n         selectionField: [ { position: 50 } ],\r\n         identification: [ { position: 50 } ]}\r\n  GLAccountNumber;\r\n  @UI: { lineItem:       [ { position: 60 , label : 'Toplam Alanı'} ],\r\n         selectionField: [ { position: 60 } ],\r\n         identification: [ { position: 60 , label : 'Toplam Alanı'}  ]}\r\n  TotalArea;\r\n  @UI: { lineItem:       [ { position: 70 } ],\r\n         selectionField: [ { position: 70 } ],\r\n         identification: [ { position: 70 } ]}\r\n  @Consumption.valueHelpDefinition: [ { entity: { name: 'ZTAX_DDL_VH_TOPALK', element: 'topalk' }}]\r\n  TotalAreaRules;\r\n  @UI: { lineItem:       [ { position: 80 } ],\r\n         selectionField: [ { position: 80 } ],\r\n         identification: [ { position: 80 } ]}\r\n  DCIndicator;\r\n\r\n  @UI: { lineItem:       [ { position: 90 } ],\r\n       selectionField: [ { position: 90 } ],\r\n       identification: [ { position: 90 } ]}\r\n  blart;\r\n\r\n\r\n\r\n}"
    }
   ]
  },
@@ -83,6 +83,27 @@
     "NAME":"UI.HEADERINFO.TYPENAMEPLURAL",
     "ELEMENT_TYPE":"N",
     "VALUE":"'Düğüm'"
+   },
+   {
+    "DDLXNAME":"ZTAX_DDL_E_VAT1_NODE",
+    "ELEMENT":"BLART",
+    "NAME":"UI.IDENTIFICATION$1$.POSITION",
+    "ELEMENT_TYPE":"S",
+    "VALUE":"90"
+   },
+   {
+    "DDLXNAME":"ZTAX_DDL_E_VAT1_NODE",
+    "ELEMENT":"BLART",
+    "NAME":"UI.LINEITEM$1$.POSITION",
+    "ELEMENT_TYPE":"S",
+    "VALUE":"90"
+   },
+   {
+    "DDLXNAME":"ZTAX_DDL_E_VAT1_NODE",
+    "ELEMENT":"BLART",
+    "NAME":"UI.SELECTIONFIELD$1$.POSITION",
+    "ELEMENT_TYPE":"S",
+    "VALUE":"90"
    },
    {
     "DDLXNAME":"ZTAX_DDL_E_VAT1_NODE",
@@ -430,8 +451,8 @@
     "EXTENDED_ARTIFACT":"ZTAX_DDL_P_VAT1_NODE",
     "VARIANT":"",
     "LAYER":1500,
-    "DT_UUID":"FA163EBBCF7E1FE08ACF3F3E8E4C4486",
-    "RT_HASH":"6FD998CC4A7D813ADAAFBED2D5AC5E1E2A809006",
+    "DT_UUID":"FA163EBBCF7E1FE0B5B84A81A9B52714",
+    "RT_HASH":"7BE9FCEA82F4CEFB2E0775CA94D1E8F8B0E1C5E4",
     "GEN_VERSION":"0",
     "TYPE":"0"
    }

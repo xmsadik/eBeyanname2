@@ -143,6 +143,24 @@
     "DOMVALUE_L":"010",
     "DOMVALUE_H":"",
     "APPVAL":""
+   },
+   {
+    "DOMNAME":"ZTAX_D_KURAL",
+    "AS4LOCAL":"N",
+    "VALPOS":11,
+    "AS4VERS":0,
+    "DOMVALUE_L":"011",
+    "DOMVALUE_H":"",
+    "APPVAL":""
+   },
+   {
+    "DOMNAME":"ZTAX_D_KURAL",
+    "AS4LOCAL":"N",
+    "VALPOS":12,
+    "AS4VERS":0,
+    "DOMVALUE_L":"012",
+    "DOMVALUE_H":"",
+    "APPVAL":""
    }
   ]
  },
@@ -259,6 +277,28 @@
     "DOMVAL_LD":"",
     "DOMVAL_HD":"",
     "DOMVALUE_L":"010"
+   },
+   {
+    "DOMNAME":"ZTAX_D_KURAL",
+    "DDLANGUAGE":"T",
+    "AS4LOCAL":"N",
+    "VALPOS":11,
+    "AS4VERS":0,
+    "DDTEXT":"Ana Hesap + Vergi Göstergesi + Belge Türü",
+    "DOMVAL_LD":"",
+    "DOMVAL_HD":"",
+    "DOMVALUE_L":"011"
+   },
+   {
+    "DOMNAME":"ZTAX_D_KURAL",
+    "DDLANGUAGE":"T",
+    "AS4LOCAL":"N",
+    "VALPOS":12,
+    "AS4VERS":0,
+    "DDTEXT":"Ana Hesap + Belge Türü",
+    "DOMVAL_LD":"",
+    "DOMVAL_HD":"",
+    "DOMVALUE_L":"012"
    }
   ]
  },

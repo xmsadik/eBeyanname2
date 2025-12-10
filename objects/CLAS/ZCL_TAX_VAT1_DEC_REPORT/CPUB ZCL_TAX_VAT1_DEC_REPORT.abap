@@ -52,6 +52,7 @@ CLASS zcl_tax_vat1_dec_report DEFINITION
     TYPES ktosl TYPE ktosl.
     TYPES kbetr TYPE p LENGTH 16 DECIMALS 2. "kbetr.
     TYPES kschl TYPE kschl.
+    TYPES blart TYPE blart.
     TYPES hkont TYPE hkont.
 
     TYPES END OF mty_bset.
@@ -73,6 +74,7 @@ CLASS zcl_tax_vat1_dec_report DEFINITION
     TYPES kural  TYPE ztax_t_k1k2s-kural.
     TYPES acklm1 TYPE ztax_t_k1k1-acklm.
     TYPES acklm2 TYPE ztax_t_k1k2-acklm.
+    TYPES blart TYPE ztax_t_kdv1g-blart.
     TYPES END OF mty_map.
 
     TYPES mtty_map TYPE TABLE OF mty_map.

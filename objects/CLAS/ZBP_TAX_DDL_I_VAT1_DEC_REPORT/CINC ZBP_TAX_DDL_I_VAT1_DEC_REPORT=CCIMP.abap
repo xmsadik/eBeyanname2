@@ -226,6 +226,15 @@ CLASS lhc_ZTAX_DDL_I_VAT1_DEC_REPORT IMPLEMENTATION.
     FIELD-SYMBOLS <fs_value> TYPE any.
     FIELD-SYMBOLS <fs_line> TYPE any.
 
+
+    DATA : lv_sifat TYPE string.
+
+    IF ls_beyg-hsv EQ 1.
+      lv_sifat = 'Temsilci'.
+    ELSEIF ls_beyg-hsv  EQ 2.
+      lv_sifat = 'Kendisi'.
+    ENDIF.
+
     READ TABLE mr_monat ASSIGNING <fs> INDEX 1.
     IF <fs> IS ASSIGNED.
       ASSIGN COMPONENT 'LOW' OF STRUCTURE <fs> TO <fs_value>.
@@ -416,15 +425,10 @@ CLASS lhc_ZTAX_DDL_I_VAT1_DEC_REPORT IMPLEMENTATION.
 
 *    CLEAR ls_hsv_val.
 *    READ TABLE lt_hsv_val INTO ls_hsv_val WITH KEY domvalue_l = ls_beyg-hsv.
-    DATA : lv_sifat TYPE string.
 
-    IF ls_beyg-hsv EQ 1.
-      lv_sifat = 'Temsilci'.
-    ELSEIF ls_beyg-hsv  EQ 2.
-      lv_sifat = 'Kendisi'.
-    ENDIF.
     CONCATENATE '<hsv sifat="'
 *                ls_hsv_val-ddtext
+                lv_sifat
                 '">'
                 INTO lv_hsv.
 
